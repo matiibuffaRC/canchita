@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoCancha {
+  Futbol
+  Padel
+}
+
+enum EstadoReserva {
+  Confirmado
+  Cancelado
+  Finalizado
+}
+
+model Administrador {
+  id_administrador Int      @id @default(autoincrement())
+  nombre           String
+  apellido         String
+  correo           String   @unique
+  contrasena       String
+  createdAt        DateTime @default(now())
+
+  predio           Predio?
+}
+
+model Predio {
+  id_predio   Int      @id @default(autoincrement())
+  nombre      String
+  slug        String   @unique
+  direccion   String?
+  telefono    String?
+  createdAt   DateTime @default(now())
+
+  id_administrador Int           @unique
+  administrador    Administrador @relation( fields: [id_administrador], references: [id_administrador], onDelete: Cascade )
+
+  canchas      Cancha[]
+  diasTrabajo  DiasTrabajo[]
+}
+
+model Cancha {
+  id_cancha  Int        @id @default(autoincrement())
+  id_predio  Int
+  nombre     String
+  tipo       TipoCancha
+  precio     Decimal
+  duracion   Int
+  activa     Boolean    @default(true)
+
+  predio     Predio     @relation( fields: [id_predio], references: [id_predio], onDelete: Cascade)
+
+  reservas   Reserva[]
+}
+
+model DiasTrabajo {
+  id_dia       Int      @id @default(autoincrement())
+  id_predio    Int
+  dia          Int
+  horaApertura String
+  horaCierre   String
+
+  predio       Predio   @relation( fields: [id_predio], references: [id_predio], onDelete: Cascade )
+
+  @@unique([id_predio, dia])
+}
+
+model Reserva {
+  id_reserva       Int            @id @default(autoincrement())
+  id_cancha        Int
+  nombreCliente    String
+  telefonoCliente  String
+  emailCliente     String?
+  fecha            DateTime
+  horaInicio       String
+  horaFin          String
+  estado           EstadoReserva @default(Confirmado)
+  creado           DateTime       @default(now())
+
+  cancha           Cancha         @relation( fields: [id_cancha], references: [id_cancha], onDelete: Cascade )
+}
