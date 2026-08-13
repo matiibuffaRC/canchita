@@ -30,7 +30,7 @@ export default function Hero() {
                         que preferís y confirmá tu reserva en pocos pasos.
                     </p>
 
-                    <div className="px-10 md:px-0 mt-6 md:mt-2 flex flex-col justify-center gap-4 sm:flex-row md:justify-start" >
+                    <div className="px-15 md:px-0 mt-6 md:mt-2 flex flex-col justify-center gap-4 sm:flex-row md:justify-start" >
                         <Link href="#como-funciona" className="rounded-4xl text-sm bg-[#243054] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#243054]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1b2644] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
                             ¿Cómo funciona?
                         </Link>

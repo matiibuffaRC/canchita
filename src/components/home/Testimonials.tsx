@@ -9,15 +9,15 @@ interface TestimonialsProps {
 }
 
 const hoverEffects = [
-    'hover:-translate-y-1 hover:-rotate-3', // primero: rota a la izquierda
+    'hover:-translate-y-1 hover:-rotate-2', // primero: rota a la izquierda
     'hover:-translate-y-1',                 // medio: solo se traslada hacia arriba
-    'hover:-translate-y-1 hover:rotate-3',  // tercero: rota a la derecha
+    'hover:-translate-y-1 hover:rotate-2',  // tercero: rota a la derecha
 ];
 
 export default function Testimonials({ testimonials }: TestimonialsProps) {
     return (
         <section aria-labelledby="testimonials-title" className="relative overflow-hidden bg-[#243054] px-6 py-20 text-white">
-            <div aria-hidden="true" className="pointer-events-none absolute -left-40 -bottom-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
+            <div aria-hidden="true" className="pointer-events-none absolute -left-32 -bottom-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
 
             <div className="relative z-10 mx-auto max-w-6xl">
                 <div className="mx-auto max-w-2xl text-center">
@@ -38,7 +38,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     {testimonials.map((testimonial, index) => (
                         <div
                             key={testimonial.name}
-                            className={`nunito rounded-xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:bg-white/10 ${hoverEffects[index % hoverEffects.length]}`}
+                            className={`nunito rounded-4xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:bg-white/10 ${hoverEffects[index % hoverEffects.length]}`}
                         >
                             <p className="leading-7 text-white/80">
                                 “{testimonial.quote}”

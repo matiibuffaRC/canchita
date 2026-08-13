@@ -36,10 +36,7 @@ export default function AdminSection() {
                         sin llamadas ni planillas.
                     </p>
 
-                    <Link
-                        href="/admin"
-                        className="nunito mt-6 inline-block rounded-4xl bg-white px-7 py-3.5 text-sm font-semibold text-[#243054] shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
-                    >
+                    <Link href="/admin" className="nunito font-bold mt-6 inline-block rounded-4xl bg-white px-7 py-3.5 text-sm text-[#243054] shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white" >
                         Quiero sumar mi cancha
                     </Link>
                 </div>
@@ -48,7 +45,7 @@ export default function AdminSection() {
                     {perks.map((perk) => (
                         <div
                             key={perk.text}
-                            className="nunito flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
+                            className="nunito flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm hover:translate-x-2 transition-all duration-300"
                         >
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
                                 <perk.icon className="h-5 w-5" />

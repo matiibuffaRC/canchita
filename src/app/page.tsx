@@ -41,7 +41,7 @@ const faqItems = [
 
 export default function Home() {
     return (
-        <main className="min-h-screen overflow-hidden bg-white text-[#243054]">
+        <main id='inicio' className="min-h-screen overflow-hidden bg-white text-[#243054]">
             <Hero />
 
             <section id="como-funciona" aria-labelledby="steps-title" className="relative scroll-mt-8 overflow-hidden bg-[#243054] px-6 py-20 text-white">
