@@ -7,6 +7,7 @@ import Benefits from '../components/home/Benefits';
 import Testimonials from '../components/home/Testimonials';
 import FAQ from '../components/home/FAQ';
 import AdminSection from '../components/home/AdminSection';
+import Contact from "../components/home/Contact";
 
 export const metadata: Metadata = {
     title: 'Canchita - Turnos',
@@ -66,6 +67,7 @@ export default function Home() {
             <Testimonials testimonials={testimonials} />
             <AdminSection />
             <FAQ items={faqItems} />
+            <Contact />
         </main>
     );
 }

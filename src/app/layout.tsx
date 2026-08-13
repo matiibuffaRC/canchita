@@ -21,9 +21,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={`${suseMono.variable} ${nunito.variable} h-full antialiased`} >
-            <Header></Header>
-            <body className="min-h-full flex flex-col">{children}</body>
+        <html lang="es" className={`${suseMono.variable} ${nunito.variable} h-full antialiased`} >
+            <body className="min-h-full flex flex-col">
+                <Header></Header>
+                {children}
+            </body>
         </html>
     );
 }
