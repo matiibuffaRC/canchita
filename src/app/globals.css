@@ -7,3 +7,7 @@
 .suseMono {
     font-family: "Suse Mono";
 }
+
+* {
+    scroll-behavior: smooth;
+}

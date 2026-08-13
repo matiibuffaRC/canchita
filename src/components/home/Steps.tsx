@@ -12,7 +12,7 @@ export default function Steps({ steps }: StepsProps) {
     return (
         <div className="mt-12 grid gap-6 md:grid-cols-3">
             {steps.map((step) => (
-                <div key={step.number} className="nunito rounded-xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/10 " >
+                <div key={step.number} className="nunito rounded-xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/10 hover:cursor-pointer" >
                     <span className="text-sm font-bold text-white/50">
                         {step.number}
                     </span>
