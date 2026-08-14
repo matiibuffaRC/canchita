@@ -27,9 +27,10 @@ model Administrador {
   apellido         String
   correo           String   @unique
   contrasena       String
+  slug             String   @unique
   createdAt        DateTime @default(now())
 
-  predio           Predio?
+  predios          Predio[]
 }
 
 model Predio {
@@ -40,11 +41,11 @@ model Predio {
   telefono    String?
   createdAt   DateTime @default(now())
 
-  id_administrador Int           @unique
+  id_administrador Int
   administrador    Administrador @relation( fields: [id_administrador], references: [id_administrador], onDelete: Cascade )
 
-  canchas      Cancha[]
-  diasTrabajo  DiasTrabajo[]
+  canchas     Cancha[]
+  diasTrabajo DiasTrabajo[]
 }
 
 model Cancha {
