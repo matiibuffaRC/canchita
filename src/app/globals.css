@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.nunito {
+    font-family: "Nunito", sans-serif;
+}
+
+.suseMono {
+    font-family: "Suse Mono";
+}
+
+* {
+    scroll-behavior: smooth;
+}
