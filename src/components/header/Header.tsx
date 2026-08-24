@@ -35,7 +35,7 @@ export default function Header() {
 
     return (
         <header className={`fixed inset-x-0 top-0 z-50 px-4 pt-4 transition-[padding] duration-300`}>
-            <div className={`nunito mx-auto flex w-full items-center justify-between rounded-2xl border border-[#243054]/10 bg-white/80 px-4 py-3 shadow-lg shadow-[#243054]/5 backdrop-blur-md transition-all duration-700 md:px-6 md:py-3.5 ${scrolled ? 'max-w-4xl' : 'max-w-5xl'}`}>
+            <div className={`nunito mx-auto flex w-full items-center justify-between rounded-full border border-[#243054]/10 bg-white/80 px-4 py-3 shadow-lg shadow-[#243054]/5 backdrop-blur-md transition-all duration-700 md:px-6 md:py-3.5 ${scrolled ? 'max-w-4xl' : 'max-w-5xl'}`}>
 
                 <div className='flex gap-6'>
                     <Link href="/#inicio" className="flex items-center select-none" onClick={() => setMenuOpen(false)}>
