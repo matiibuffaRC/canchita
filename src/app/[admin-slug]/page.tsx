@@ -2,14 +2,30 @@
 
 import { useEffect, useState } from "react";
 
+// Import dependencies
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import Link from "next/link";
+
+
+// Import icons
+import ChevronIcon from "../../components/icons/Chevron";
+import PhoneIcon from "../../components/icons/Phone";
+import PinIcon from "../../components/icons/Pin";
 
 type Predio = {
     id_predio: number,
     nombre: string,
+    slug:string,
     direccion: string,
     telefono: string
+}
+
+type Admin = {
+    id_administrador: number,
+    nombre: string,
+    apellido: string,
+    slug: string,
 }
 
 // Ícono de cancha genérica — placeholder hasta que exista una foto real por predio
@@ -25,37 +41,12 @@ function FotoGenerica() {
     );
 }
 
-function PinIcon() {
-    return (
-        <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 text-[#243054]/50">
-            <path d="M8 1.5c-2.6 0-4.7 2.1-4.7 4.7 0 3.5 4.7 8.3 4.7 8.3s4.7-4.8 4.7-8.3c0-2.6-2.1-4.7-4.7-4.7Z" fill="none" stroke="currentColor" strokeWidth="1.3" />
-            <circle cx="8" cy="6.2" r="1.6" fill="currentColor" />
-        </svg>
-    );
-}
-
-function PhoneIcon() {
-    return (
-        <svg aria-hidden="true" viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 text-[#243054]/50">
-            <path d="M3.5 2.5h2l1 3-1.5 1a8 8 0 0 0 4.5 4.5l1-1.5 3 1v2c0 .8-.7 1.5-1.5 1.4C6.9 13.4 2.6 9.1 2.1 3.9 2 3.1 2.7 2.5 3.5 2.5Z" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
-        </svg>
-    );
-}
-
-function ChevronIcon() {
-    return (
-        <svg aria-hidden="true" viewBox="0 0 16 16" className="h-4 w-4 text-[#243054]/40">
-            <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-    );
-}
-
 // Lo que esperamos recibir del backend
 function Page() {
-
     const { "admin-slug": slug } = useParams<{ "admin-slug": string }>();
     const [predios, setPredios] = useState<Predio[]>([])
     const [loading, setLoading] = useState(true);
+    const [admin, setAdmin] = useState<Admin | null>(null)
 
     useEffect(() => {
         if (!slug) return;
@@ -72,7 +63,9 @@ function Page() {
                 }
 
                 const data = await result.json();
+                setAdmin(data.administrador)
                 setPredios(data.predios);
+                console.log(data.administrador)
             }catch(error){
                 console.error("Ocurrió un error al obtener los predios: ", error)
             }finally{
@@ -108,7 +101,13 @@ function Page() {
                     </div>
 
                     <button aria-label={`Gestionar ${predio.nombre}`} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition hover:bg-[#243054]/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
-                        <ChevronIcon />
+                        <Link
+                            href={`/${admin?.slug}/${predio.slug}`}
+                            aria-label={`Gestionar ${predio.nombre}`}
+                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition hover:bg-[#243054]/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]"
+                        >
+                            <ChevronIcon />
+                        </Link>
                     </button>
                 </div>
             )
@@ -117,7 +116,7 @@ function Page() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center"> 
+            <div className="bg-[#F4F6F9] flex min-h-screen items-center justify-center"> 
                 <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" /> 
             </div> 
         ); 
