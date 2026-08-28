@@ -6,10 +6,10 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 
 type Predio = {
-    id: number,
+    id_predio: number,
     nombre: string,
     direccion: string,
-    numero: string
+    telefono: string
 }
 
 // Ícono de cancha genérica — placeholder hasta que exista una foto real por predio
@@ -55,23 +55,30 @@ function Page() {
 
     const { "admin-slug": slug } = useParams<{ "admin-slug": string }>();
     const [predios, setPredios] = useState<Predio[]>([])
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!slug) return;
         const peticionFetch = async () => {
-            const result = await fetch(`/api/admins/${slug}/predio`);
+            try {
+                const result = await fetch(`/api/admins/${slug}/predio`);
+                if (!result.ok) {
+                    const body = await result.json().catch(() => null);
 
-            if (!result.ok) {
-                const body = await result.json().catch(() => null);
+                    throw new Error(
+                        body?.message ??
+                            "Ha ocurrido un error al obtener los predios del administrador",
+                    );
+                }
 
-                throw new Error(
-                    body?.message ??
-                        "Ha ocurrido un error al obtener los predios del administrador",
-                );
+                const data = await result.json();
+                setPredios(data.predios);
+            }catch(error){
+                console.error("Ocurrió un error al obtener los predios: ", error)
+            }finally{
+                setLoading(false)
             }
-
-            const data = await result.json();
-            setPredios(data.predios);
+            
         };
 
         peticionFetch().catch((error: Error) => console.error(error.message));
@@ -82,10 +89,10 @@ function Page() {
     const printPredios = () => {
         return predios.map((predio) => {
             return (
-                <div key={predio.id} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm transition hover:border-[#243054]/20 hover:shadow-md" >
+                <div key={predio.id_predio} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm transition hover:border-[#243054]/20 hover:shadow-md" >
                     <FotoGenerica />
                     <div className="min-w-0 flex-1">
-                        <h2 className="truncate text-base font-extrabold text-[#161B2E]">
+                        <h2 className="truncate text-lg font-extrabold text-[#161B2E]">
                             {predio.nombre}
                         </h2>
 
@@ -108,13 +115,21 @@ function Page() {
         })
     }
 
+    if (loading) {
+        return (
+            <div className="flex min-h-screen items-center justify-center"> 
+                <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" /> 
+            </div> 
+        ); 
+    }
+
     return (
         <div className="flex min-h-screen flex-col items-center bg-[#F4F6F9] p-5 text-[#243054] nunito">
 
             <div className="w-full max-w-3xl">
                 {/* Header con logo — sacá este bloque si ya tenés uno compartido en el layout */}
-                <div className="mb-6 flex items-center gap-1">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ">
+                <div className="mb-6 pb-1 flex items-center gap-1 border-b-2 border-[#243054]/10">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
                         <Image src="/icons/IconPNG.png" alt="Canchita" width={40} height={40} />
                     </div>
                     <span className="text-xl font-extrabold text-[#161B2E]">Canchita</span>
@@ -124,7 +139,7 @@ function Page() {
                     <h1 className="text-2xl font-extrabold tracking-tight text-[#161B2E]">
                         ¿Donde jugamos hoy?
                     </h1>
-                    <p className="text-[#243054]/60">
+                    <p className="text-[#243054]/60 font-bold">
                         {predios.length === 1 ? "Predio disponible" : "Predios disponibles"}
                     </p>
                 </div>
