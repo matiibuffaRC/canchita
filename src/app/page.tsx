@@ -48,17 +48,17 @@ export default function Home() {
             <main id='inicio' className="min-h-screen overflow-hidden bg-white text-[#243054]">
                 <Hero />
 
-                <section id="como-funciona" aria-labelledby="steps-title" className="relative scroll-mt-8 overflow-hidden bg-[#243054] px-6 py-20 text-white">
+                <section id="como-funciona" aria-labelledby="steps-title" className="relative scroll-mt-8 overflow-hidden px-6 py-20 text-[#243054]">
                     <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
                     <div className="relative z-10 mx-auto max-w-6xl">
                         <div className="mx-auto max-w-2xl text-center">
-                            <span className="nunito text-sm font-semibold uppercase tracking-widest text-white/50">
+                            <span className="nunito text-sm font-semibold uppercase tracking-widest text-[#243054]/50">
                                 Simple y rápido
                             </span>
                             <h2 id="steps-title" className="nunito mt-3 text-3xl font-bold md:text-4xl">
                                 Reservar una cancha nunca fue tan fácil
                             </h2>
-                            <p className="nunito text-white/70">
+                            <p className="nunito text-[#243054]/70">
                                 Elegí tu cancha, seleccioná el horario y listo.
                             </p>
                         </div>

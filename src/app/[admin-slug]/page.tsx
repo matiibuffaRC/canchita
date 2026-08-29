@@ -13,6 +13,9 @@ import ChevronIcon from "../../components/icons/Chevron";
 import PhoneIcon from "../../components/icons/Phone";
 import PinIcon from "../../components/icons/Pin";
 
+// Import componentes
+import FotoGenerica from "../../components/admin-page/FotoGenerica";
+
 type Predio = {
     id_predio: number,
     nombre: string,
@@ -28,18 +31,6 @@ type Admin = {
     slug: string,
 }
 
-// Ícono de cancha genérica — placeholder hasta que exista una foto real por predio
-function FotoGenerica() {
-    return (
-        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-linear-to-br from-[#2f7a4f] via-[#1f5c3a] to-[#123322]">
-            <svg aria-hidden="true" viewBox="0 0 64 64" className="absolute inset-0 h-full w-full text-white/25" >
-                <rect x="4" y="4" width="56" height="56" rx="4" fill="none" stroke="currentColor" strokeWidth="2" />
-                <line x1="32" y1="4" x2="32" y2="60" stroke="currentColor" strokeWidth="2" />
-                <circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
-            </svg>
-        </div>
-    );
-}
 
 // Lo que esperamos recibir del backend
 function Page() {
@@ -50,7 +41,7 @@ function Page() {
 
     useEffect(() => {
         if (!slug) return;
-        const peticionFetch = async () => {
+        const fetchPredios = async () => {
             try {
                 const result = await fetch(`/api/admins/${slug}/predio`);
                 if (!result.ok) {
@@ -74,7 +65,7 @@ function Page() {
             
         };
 
-        peticionFetch().catch((error: Error) => console.error(error.message));
+        fetchPredios().catch((error: Error) => console.error(error.message));
 
     }, [slug]);
 
@@ -82,7 +73,7 @@ function Page() {
     const printPredios = () => {
         return predios.map((predio) => {
             return (
-                <div key={predio.id_predio} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm transition hover:border-[#243054]/20 hover:shadow-md" >
+                <Link key={predio.id_predio} href={`/${admin?.slug}/${predio.slug}`} aria-label={`Gestionar ${predio.nombre}`} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm transition hover:border-[#243054]/20 hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
                     <FotoGenerica />
                     <div className="min-w-0 flex-1">
                         <h2 className="truncate text-lg font-extrabold text-[#161B2E]">
@@ -100,16 +91,10 @@ function Page() {
                         </p>
                     </div>
 
-                    <button aria-label={`Gestionar ${predio.nombre}`} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition hover:bg-[#243054]/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
-                        <Link
-                            href={`/${admin?.slug}/${predio.slug}`}
-                            aria-label={`Gestionar ${predio.nombre}`}
-                            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition hover:bg-[#243054]/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]"
-                        >
-                            <ChevronIcon />
-                        </Link>
-                    </button>
-                </div>
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition group-hover:bg-[#243054]/5">
+                        <ChevronIcon />
+                    </span>
+                </Link>
             )
         })
     }

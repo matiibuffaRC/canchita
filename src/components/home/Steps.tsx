@@ -12,8 +12,8 @@ export default function Steps({ steps }: StepsProps) {
     return (
         <div className="mt-12 grid gap-6 md:grid-cols-3">
             {steps.map((step) => (
-                <div key={step.number} className="nunito rounded-xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/10 hover:cursor-pointer" >
-                    <span className="text-sm font-bold text-white/50">
+                <div key={step.number} className="nunito rounded-xl border border-[#243054]/10 bg-[#243054]/5 p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:bg-white/10 hover:cursor-pointer" >
+                    <span className="text-sm font-bold text-[#243054]/50">
                         {step.number}
                     </span>
 
@@ -21,7 +21,7 @@ export default function Steps({ steps }: StepsProps) {
                         {step.title}
                     </h3>
 
-                    <p className="mt-1 leading-7 text-white/70">
+                    <p className="mt-1 leading-7 text-[#243054]/70">
                         {step.description}
                     </p>
                 </div>
