@@ -33,17 +33,17 @@ export default function FAQ({ items }: FAQProps) {
                         const isOpen = openIndex === index;
 
                         return (
-                            <div key={item.question} className="nunito overflow-hidden rounded-xl border border-[#243054]/10 bg-white" >
-                                <button type="button" onClick={() => setOpenIndex(isOpen ? null : index)} aria-expanded={isOpen} className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left font-semibold text-[#243054] transition-colors" >
+                            <div key={item.question} className="nunito overflow-hidden rounded-xl border border-[#243054]/10 bg-white">
+                                <button type="button" onClick={() => setOpenIndex(isOpen ? null : index)} aria-expanded={isOpen} className="cursor-pointer font-extrabold flex w-full items-center justify-between gap-4 px-6 py-4 text-left  text-[#243054] transition-colors" >
                                     {item.question}
                                     <ChevronDown
-                                        className={`h-5 w-5 shrink-0 text-[#243054]/50 transition-transform duration-300 ${
+                                        className={`h-5 w-5 shrink-0 text-[#243054]/50 transition-transform duration-300${
                                             isOpen ? 'rotate-180' : ''
                                         }`}
                                     />
                                 </button>
 
-                                <div className={`grid transition-all duration-300 ease-in-out ${ isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0' }`} >
+                                <div className={`grid transition-all duration-300 ease-in-out  ${ isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0' }`} >
                                     <div className="overflow-hidden">
                                         <p className="px-6 pb-4 leading-7 text-gray-600">
                                             {item.answer}

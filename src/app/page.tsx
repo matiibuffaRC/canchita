@@ -111,7 +111,7 @@ export default function Home() {
         <section
           id="como-funciona"
           aria-labelledby="steps-title"
-          className="relative scroll-mt-8 overflow-hidden px-6 py-20 text-[#243054]"
+          className="relative scroll-mt-28 overflow-hidden px-6 py-20 text-[#243054]"
         >
           <div
             aria-hidden="true"
