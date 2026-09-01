@@ -56,7 +56,7 @@ function Page() {
                 const data = await result.json();
                 setAdmin(data.administrador)
                 setPredios(data.predios);
-                console.log(data.administrador)
+                // console.log(data.administrador)
             }catch(error){
                 console.error("Ocurrió un error al obtener los predios: ", error)
             }finally{
@@ -69,7 +69,7 @@ function Page() {
 
     }, [slug]);
 
-    // Función para imprimir los predios
+    // Imprimimos los predios
     const printPredios = () => {
         return predios.map((predio) => {
             return (
