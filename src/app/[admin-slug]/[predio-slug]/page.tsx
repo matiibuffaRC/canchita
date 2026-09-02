@@ -76,6 +76,10 @@ function Page() {
     }, [slug]);
 
 
+    useEffect(()=>{
+        console.log("Reserva en curso actualizada: ", reservaEnCurso)
+    },[reservaEnCurso])
+
     if (loading) {
         return (
             <div className="bg-[#F4F6F9] flex min-h-screen items-center justify-center">
