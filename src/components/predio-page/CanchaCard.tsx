@@ -1,7 +1,11 @@
+// Import dependencies
 import { getVisualPorTipo } from '../../libs/predio/tipoVisual';
+import Link from 'next/link';
 
 type Props = {
     cancha: Cancha;
+    predioSlug: string;
+    adminSlug: string;
     onSelect: () => void;
 };
 
@@ -20,12 +24,12 @@ const formatoPrecio = new Intl.NumberFormat('es-AR', {
     minimumFractionDigits: 0,
 });
 
-function CanchaCard({ cancha, onSelect }: Props) {
+function CanchaCard({ cancha, onSelect, adminSlug, predioSlug }: Props) {
     const { nombre, duracion, precio, tipo } = cancha;
     const { Icon, bg, color } = getVisualPorTipo(tipo);
 
     return (
-        <div className="w-full overflow-hidden rounded-2xl bg-white shadow-xs hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+        <Link href={`/${adminSlug}/${predioSlug}/${cancha.id_cancha}`} className="w-full overflow-hidden rounded-2xl bg-white shadow-xs hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-md motion-reduce:transition-none motion-reduce:hover:translate-y-0" onClick={onSelect}>
             <div className={`flex h-25 w-full items-center justify-center ${bg}`}>
                 <Icon className={`h-14 w-14 ${color}`} />
             </div>
@@ -49,7 +53,7 @@ function CanchaCard({ cancha, onSelect }: Props) {
                     </span>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 
