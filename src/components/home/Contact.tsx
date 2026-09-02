@@ -13,16 +13,16 @@ export default function Contact() {
     };
 
     return (
-        <section id="contacto" aria-labelledby="contact-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-20 text-white" >
+        <section id="contacto" aria-labelledby="contact-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-20 text-white">
             <div aria-hidden="true" className="pointer-events-none absolute -right-40 -bottom-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
 
             <div className="relative z-10 mx-auto max-w-6xl">
                 <div className="mx-auto max-w-2xl text-center">
-                    <h2 id="contact-title" className="nunito mt-3 text-3xl font-bold md:text-4xl" >
+                    <h2 id="contact-title" className="nunito mt-3 text-3xl font-bold md:text-4xl selection:text-gray-400 selection:bg-[#243054]">
                         ¡Contactanos!
                     </h2>
 
-                    <p className="nunito text-white/70">
+                    <p className="nunito text-white/70 selection:text-white selection:bg-[#243054]">
                         Escribinos y te respondemos a la brevedad.
                     </p>
                 </div>

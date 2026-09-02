@@ -21,32 +21,29 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
             <div className="relative z-10 mx-auto max-w-6xl">
                 <div className="mx-auto max-w-2xl text-center">
-                    <span className="nunito text-sm font-semibold uppercase tracking-widest text-white/50">
+                    <span className="nunito text-sm font-semibold uppercase tracking-widest text-white/50 selection:text-white selection:bg-bg-white/6">
                         Lo dicen ellos
                     </span>
 
-                    <h2 id="testimonials-title" className="nunito mt-3 text-3xl font-bold md:text-4xl">
+                    <h2 id="testimonials-title" className="nunito mt-3 text-3xl font-bold md:text-4xl selection:text-gray-400 selection:bg-bg-white/6">
                         Confían en nosotros
                     </h2>
 
-                    <p className="nunito text-white/70">
+                    <p className="nunito text-white/70 selection:text-white selection:bg-bg-white/6">
                         Jugadores y dueños de canchas ya reservan y gestionan con Canchita.
                     </p>
                 </div>
 
                 <div className="mt-12 grid gap-6 md:grid-cols-3">
                     {testimonials.map((testimonial, index) => (
-                        <div
-                            key={testimonial.name}
-                            className={`nunito rounded-4xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:bg-white/10 ${hoverEffects[index % hoverEffects.length]}`}
-                        >
-                            <p className="leading-7 text-white/80">
+                        <div key={testimonial.name} className={`nunito rounded-4xl border border-white/10 bg-white/5 p-7 backdrop-blur-sm transition duration-300 hover:bg-white/10 ${hoverEffects[index % hoverEffects.length]}`} >
+                            <p className="leading-7 text-white/80 selection:text-white selection:bg-bg-white/6">
                                 “{testimonial.quote}”
                             </p>
 
                             <div className="mt-5">
-                                <p className="font-bold">{testimonial.name}</p>
-                                <p className="text-sm text-white/50">{testimonial.role}</p>
+                                <p className="font-bold selection:text-gray-400 selection:bg-bg-white/6">{testimonial.name}</p>
+                                <p className="text-sm text-white/50 selection:text-white selection:bg-bg-white/6">{testimonial.role}</p>
                             </div>
                         </div>
                     ))}
