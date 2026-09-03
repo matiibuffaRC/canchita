@@ -1,7 +1,17 @@
+'use client';
+
+// Import dependencies
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
+    const handleScrollToSection = (sectionId: string) => {
+        const section = document.getElementById(sectionId);
+
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
     return (
         <section aria-labelledby="hero-title" className="relative flex flex-col items-center justify-center min-h-[calc(100vh-89px)]">
             {/* Background */}
@@ -31,9 +41,9 @@ export default function Hero() {
                     </p>
 
                     <div className="px-15 md:px-0 mt-6 md:mt-2 flex flex-col justify-center gap-4 sm:flex-row md:justify-start" >
-                        <Link href="#como-funciona" className="rounded-4xl text-sm bg-[#243054] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#243054]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1b2644] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
+                        <button onClick={() => handleScrollToSection("como-funciona")} className="cursor-pointer rounded-4xl text-sm bg-[#243054] px-7 py-3.5 font-semibold text-white shadow-lg shadow-[#243054]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1b2644] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
                             ¿Cómo funciona?
-                        </Link>
+                        </button>
 
                         <Link href="/admin" className="rounded-4xl border-2 text-sm border-[#243054] px-7 py-3.5 font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#243054] hover:text-white motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
                             Soy administrador

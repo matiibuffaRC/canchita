@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { SUSE_Mono, Nunito } from "next/font/google";
+import { SUSE_Mono, Nunito, Inter } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const suseMono = SUSE_Mono({
   variable: "--font-geist-sans",
@@ -25,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${suseMono.variable} ${nunito.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", suseMono.variable, nunito.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col bg-white text-[#243054]">
         {children}
