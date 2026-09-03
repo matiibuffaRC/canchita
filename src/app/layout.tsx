@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
 import { SUSE_Mono, Nunito, Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const suseMono = SUSE_Mono({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const nunito = Nunito({
   variable: "--font-geist-mono",
@@ -28,7 +23,13 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={cn("h-full", "antialiased", suseMono.variable, nunito.variable, "font-sans", inter.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        nunito.variable,
+        "font-sans",
+        inter.variable,
+      )}
     >
       <body className="min-h-full flex flex-col bg-white text-[#243054]">
         {children}

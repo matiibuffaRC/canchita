@@ -1,14 +1,25 @@
-interface Step {
-    number: string;
-    title: string;
-    description: string;
-}
+const steps = [
+    {
+        number: "01",
+        title: "Elegí tu cancha",
+        description:
+            "Ingresá al predio y seleccioná la cancha que querés reservar.",
+    },
+    {
+        number: "02",
+        title: "Elegí día y horario",
+        description:
+            "Consultá los horarios disponibles y seleccioná el que prefieras.",
+    },
+    {
+        number: "03",
+        title: "Confirmá tu reserva",
+        description:
+            "Ingresá tus datos y confirmá la reserva de manera rápida y sencilla.",
+    },
+];
 
-interface StepsProps {
-    steps: Step[];
-}
-
-export default function Steps({ steps }: StepsProps) {
+export default function Steps() {
     return (
         <div className="mt-12 grid gap-6 md:grid-cols-3">
             {steps.map((step) => (

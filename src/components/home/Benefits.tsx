@@ -1,16 +1,29 @@
-import type { LucideIcon } from "lucide-react";
+import { Zap, MessageSquareOff, CalendarX, CalendarClock } from "lucide-react";
 
-interface Benefit {
-    icon: LucideIcon;
-    title: string;
-    description: string;
-}
+const benefits = [
+    {
+        icon: Zap,
+        title: "Confirmación al instante",
+            description: "Tu reserva queda confirmada al momento, sin esperas.",
+    },
+    {
+        icon: MessageSquareOff,
+        title: "Sin llamadas ni WhatsApp",
+            description: "Reservá online, sin depender de que te contesten.",
+    },
+    {
+        icon: CalendarClock,
+        title: "Consultá disponibilidad",
+            description: "No hay demoras para ver tus oportunidades.",
+    },
+    {
+        icon: CalendarX,
+        title: "Cancelación fácil",
+            description: "Cancelá o reprogramá tu turno en segundos.",
+    },
+];
 
-interface BenefitsProps {
-    benefits: Benefit[];
-}
-
-export default function Benefits({ benefits }: BenefitsProps) {
+export default function Benefits() {
     return (
         <section id="nosotros" aria-labelledby="benefits-title" className="relative scroll-mt-28 bg-[#243054] px-6 py-20" >
             <div className="mx-auto max-w-6xl">

@@ -9,7 +9,7 @@ import {
   useSpring,
 } from "motion/react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 export type ScrollProgressSection = { id: string; label: string };
 
@@ -228,11 +228,11 @@ const ScrollProgress = ({
                         type="button"
                         onClick={() => selectSection(s.id)}
                         className={cn(
-                          "relative flex w-full items-center gap-3 rounded-[14px] px-3 py-2 text-left text-sm font-medium leading-none transition-colors",
+                          "relative flex w-full items-center gap-3 rounded-[14px] px-3 py-2 text-left text-sm font-medium leading-none transition-colors cursor-pointer",
                           squircle,
                           isActive
                             ? "text-foreground"
-                            : "text-foreground/55 hover:text-foreground/80",
+                            : "text-foreground/55 hover:bg-foreground/5 hover:text-foreground/80",
                         )}
                       >
                         {isActive && (
@@ -291,7 +291,7 @@ const ScrollProgress = ({
                 type="button"
                 onClick={() => setOpen(true)}
                 aria-label="Show sections"
-                className="absolute inset-0 flex items-center gap-2.5 py-1.5 pl-2 pr-4"
+                className="absolute inset-0 flex items-center gap-2.5 py-1.5 pl-2 pr-4 cursor-pointer"
                 initial={{
                   opacity: 0,
                   filter: reduceMotion ? undefined : "blur(4px)",
