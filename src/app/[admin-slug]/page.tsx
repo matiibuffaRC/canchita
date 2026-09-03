@@ -15,6 +15,7 @@ import PinIcon from "../../components/icons/Pin";
 
 // Import componentes
 import FotoGenerica from "../../components/admin-page/FotoGenerica";
+import { Loader } from "../../components/loader/Loader";
 
 type Predio = {
     id_predio: number,
@@ -99,13 +100,7 @@ function Page() {
         })
     }
 
-    if (loading) {
-        return (
-            <div className="bg-[#F4F6F9] flex min-h-screen items-center justify-center"> 
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" /> 
-            </div> 
-        ); 
-    }
+    if (loading) return <Loader />;
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-[#F4F6F9] p-5 text-[#243054] nunito">

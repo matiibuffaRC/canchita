@@ -12,9 +12,9 @@
     font-family: "Suse Mono";
 }
 
-* {
+/* * {
     scroll-behavior: smooth;
-}
+} */
 
 @theme inline {
     --font-heading: var(--font-sans);

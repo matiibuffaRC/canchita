@@ -6,7 +6,9 @@ import { useParams } from "next/navigation";
 
 // Import components
 import StadiumHero from '../../../components/predio-page/StadiumHero';
+import { Header } from "@/src/components/header/userPages/Header"
 import CanchasList from '../../../components/predio-page/CanchasList';
+import { Loader } from '../../../components/loader/Loader';
 
 type Cancha = {
     id_cancha: number,
@@ -80,27 +82,11 @@ function Page() {
         console.log("Reserva en curso actualizada: ", reservaEnCurso)
     },[reservaEnCurso])
 
-    if (loading) {
-        return (
-            <div className="bg-[#F4F6F9] flex min-h-screen items-center justify-center">
-                <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500" />
-            </div>
-        );
-    }
+    if (loading) return <Loader />;
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-[#F4F6F9] text-[#243054] nunito" onClick={()=>{}}>
-            <header className="relative px-5 pt-5 pb-3 flex justify-center items-center gap-1 border-b-2 border-[#243054]/10 w-full max-w-3xl">
-                <button type="button" aria-label="Volver" className="cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-1.5 shadow-sm transition hover:bg-[#243054]/5 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]"
-                    onClick={() => window.history.back()} >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 18L9 12L15 6" stroke="#1A1D29" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </button>
-                <h1 className="text-lg md:text-xl font-extrabold text-[#1A1D29]">
-                    {nombrePredio}
-                </h1>
-            </header>
+            <Header titulo={`${nombrePredio}`} />
 
             <div className="flex w-full max-w-3xl flex-col gap-4">
                 <StadiumHero />
@@ -109,7 +95,11 @@ function Page() {
             <div className="w-full max-w-3xl p-5">
                 <h2 className="text-2xl font-extrabold">Canchas disponibles</h2>
                 {/* Hacemos el if para imprimir o no las canchas */}
-                {error ? ( <p className="mt-3 text-sm text-red-500">{error}</p>) : ( <CanchasList canchas={canchas} predioSlug={slug} adminSlug={adminSlug} onSelectCancha={(id) => actualizarReserva({ canchaId: id })} />)}
+                {error ? 
+                    ( <p className="mt-3 text-sm text-red-500">{error}</p>) 
+                    : 
+                    ( <CanchasList canchas={canchas} predioSlug={slug} adminSlug={adminSlug} onSelectCancha={(id) => actualizarReserva({ canchaId: id })} />)
+                }
             </div>
         </div>
     );
