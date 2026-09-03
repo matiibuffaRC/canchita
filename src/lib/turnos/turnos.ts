@@ -1,48 +1,81 @@
-import dayjs, { Dayjs, } from 'dayjs';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import dayjs, { Dayjs } from "dayjs";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 dayjs.extend(isSameOrBefore);
 
 export type Turno = {
-    inicio: string; // "HH:mm"
-    fin: string;    // "HH:mm"
-    disponible: boolean;
+  inicio: string; // "HH:mm"
+  fin: string; // "HH:mm"
+  disponible: boolean;
 };
 
+function minutosDesdeMedianoche(horario: string): number | null {
+  const coincidencia = horario.match(/(?:^|T|\s)(\d{1,2}):(\d{2})/);
+  const hora = coincidencia ? Number(coincidencia[1]) : NaN;
+  const minuto = coincidencia ? Number(coincidencia[2]) : NaN;
+
+  if (
+    !Number.isInteger(hora) ||
+    !Number.isInteger(minuto) ||
+    hora < 0 ||
+    hora > 23 ||
+    minuto < 0 ||
+    minuto > 59
+  ) {
+    return null;
+  }
+
+  return hora * 60 + minuto;
+}
+
 /**
-     * Genera los turnos posibles para un día según horario de apertura/cierre y duración.
-     * @param fecha Día seleccionado
-     * @param horarioApertura "HH:mm:ss" o "HH:mm"
-     * @param horarioCierre "HH:mm:ss" o "HH:mm"
-     * @param duracionMinutos duración de cada turno en minutos
-     * @param turnosOcupados lista de horarios de inicio ya reservados, ej. ["10:00", "14:30"]
+ * Genera los turnos posibles para un día según horario de apertura/cierre y duración.
+ * @param fecha Día seleccionado
+ * @param horarioApertura "HH:mm:ss" o "HH:mm"
+ * @param horarioCierre "HH:mm:ss" o "HH:mm"
+ * @param duracionMinutos duración de cada turno en minutos
+ * @param turnosOcupados lista de horarios de inicio ya reservados, ej. ["10:00", "14:30"]
  */
 export function generarTurnos(
-    fecha: Dayjs,
-    horarioApertura: string,
-    horarioCierre: string,
-    duracionMinutos: number,
-    turnosOcupados: string[] = []
+  fecha: Dayjs,
+  horarioApertura: string,
+  horarioCierre: string,
+  duracionMinutos: number | string,
+  turnosOcupados: string[] = [],
 ): Turno[] {
-    const [horaApertura, minApertura] = horarioApertura.split(':').map(Number);
-    const [horaCierre, minCierre] = horarioCierre.split(':').map(Number);
+  const apertura = minutosDesdeMedianoche(horarioApertura);
+  const cierre = minutosDesdeMedianoche(horarioCierre);
+  const duracion = Number(duracionMinutos);
 
-    let cursor = fecha.hour(horaApertura).minute(minApertura).second(0);
-    const cierre = fecha.hour(horaCierre).minute(minCierre).second(0);
+  if (
+    apertura === null ||
+    cierre === null ||
+    !Number.isFinite(duracion) ||
+    duracion <= 0 ||
+    cierre === apertura
+  ) {
+    return [];
+  }
 
-    const turnos: Turno[] = [];
+  let cursor = fecha.startOf("day").add(apertura, "minute");
+  const finDeLaJornada = fecha
+    .startOf("day")
+    .add(cierre, "minute")
+    .add(cierre < apertura ? 1 : 0, "day");
 
-    while (cursor.add(duracionMinutos, 'minute').isSameOrBefore(cierre)) {
-        const inicio = cursor.format('HH:mm');
-        const fin = cursor.add(duracionMinutos, 'minute').format('HH:mm');
+  const turnos: Turno[] = [];
 
-        turnos.push({
-            inicio,
-            fin,
-            disponible: !turnosOcupados.includes(inicio),
-        });
+  while (cursor.add(duracion, "minute").isSameOrBefore(finDeLaJornada)) {
+    const inicio = cursor.format("HH:mm");
+    const fin = cursor.add(duracion, "minute").format("HH:mm");
 
-        cursor = cursor.add(duracionMinutos, 'minute');
-    }
+    turnos.push({
+      inicio,
+      fin,
+      disponible: !turnosOcupados.includes(inicio),
+    });
 
-    return turnos;
+    cursor = cursor.add(duracion, "minute");
+  }
+
+  return turnos;
 }
