@@ -1,25 +1,26 @@
 import { Zap, MessageSquareOff, CalendarX, CalendarClock } from "lucide-react";
+import { Reveal } from "../motion/Reveal";
 
 const benefits = [
     {
         icon: Zap,
         title: "Confirmación al instante",
-            description: "Tu reserva queda confirmada al momento, sin esperas.",
+        description: "Tu reserva queda confirmada al momento, sin esperas.",
     },
     {
         icon: MessageSquareOff,
         title: "Sin llamadas ni WhatsApp",
-            description: "Reservá online, sin depender de que te contesten.",
+        description: "Reservá online, sin depender de que te contesten.",
     },
     {
         icon: CalendarClock,
         title: "Consultá disponibilidad",
-            description: "No hay demoras para ver tus oportunidades.",
+        description: "No hay demoras para ver tus oportunidades.",
     },
     {
         icon: CalendarX,
         title: "Cancelación fácil",
-            description: "Cancelá o reprogramá tu turno en segundos.",
+        description: "Cancelá o reprogramá tu turno en segundos.",
     },
 ];
 
@@ -32,7 +33,7 @@ export default function Benefits() {
                         Ventajas
                     </span>
 
-                    <h2 id="benefits-title" className="nunito mt-3 text-3xl font-bold text-white md:text-4xl selection:text-white/10 selection:bg-[#243054]">
+                    <h2 id="benefits-title" className="nunito mt-3 text-3xl font-bold text-white md:text-4xl selection:text-white/10 selection:bg-[#243054]" >
                         ¿Por qué elegirnos?
                     </h2>
 
@@ -42,20 +43,20 @@ export default function Benefits() {
                 </div>
 
                 <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    {benefits.map((benefit) => (
-                        <div key={benefit.title} className="nunito rounded-xl border border-white/10 bg-white/2 p-7 transition duration-300 hover:-translate-y-1 hover:bg-white/6" >
-                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
-                                <benefit.icon className="h-5 w-5"/>
-                            </div>
-
-                            <h3 className="mt-4 text-lg font-bold text-white selection:text-gray-400 selection:bg-bg-white/6">
-                                {benefit.title}
-                            </h3>
-
-                            <p className="mt-1 leading-7 text-gray-400 selection:text-white selection:bg-bg-white/6">
-                                {benefit.description}
-                            </p>
+                    {benefits.map((benefit, index) => (
+                        <Reveal key={benefit.title} delay={index * 0.1} className="nunito rounded-xl border border-white/10 bg-white/2 p-7 transition duration-300 hover:-translate-y-1 hover:bg-white/6" >
+                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white">
+                            <benefit.icon className="h-5 w-5" />
                         </div>
+
+                        <h3 className="mt-4 text-lg font-bold text-white selection:text-gray-400 selection:bg-bg-white/6">
+                            {benefit.title}
+                        </h3>
+
+                        <p className="mt-1 leading-7 text-gray-400 selection:text-white selection:bg-bg-white/6">
+                            {benefit.description}
+                        </p>
+                        </Reveal>
                     ))}
                 </div>
             </div>
