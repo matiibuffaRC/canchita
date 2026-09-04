@@ -12,9 +12,38 @@
     font-family: "Suse Mono";
 }
 
-/* * {
-    scroll-behavior: smooth;
-} */
+/* Animaciones del header */
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideRightFade {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.anim-slide-up {
+    animation: slideUpFade 0.5s ease-out forwards;
+}
+
+.anim-slide-right {
+    animation: slideRightFade 0.5s ease-out forwards;
+}
+/* --- */
 
 @theme inline {
     --font-heading: var(--font-sans);
