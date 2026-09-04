@@ -78,9 +78,9 @@ function Page() {
     }, [slug]);
 
 
-    useEffect(()=>{
-        console.log("Reserva en curso actualizada: ", reservaEnCurso)
-    },[reservaEnCurso])
+    // useEffect(()=>{
+    //     console.log("Reserva en curso actualizada: ", reservaEnCurso)
+    // },[reservaEnCurso])
 
     if (loading) return <Loader />;
 

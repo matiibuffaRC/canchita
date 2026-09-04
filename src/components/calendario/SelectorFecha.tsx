@@ -17,7 +17,7 @@ type SelectorFechaProps = {
 export function SelectorFecha({
     value,
     onChange,
-    diasHaciaAdelante = 7,
+    diasHaciaAdelante = 10,
 }: SelectorFechaProps) {
     return (
         <ThemeProvider theme={calendarTheme}>
