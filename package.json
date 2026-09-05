@@ -17,6 +17,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.23",
+    "flag-icons": "^7.5.0",
     "lucide-react": "^1.33.0",
     "motion": "^13.2.0",
     "next": "16.3.1",
