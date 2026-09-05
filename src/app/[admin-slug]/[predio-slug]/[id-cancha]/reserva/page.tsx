@@ -17,8 +17,11 @@ export default function ReservaPage() {
     const { "id-cancha": id } = useParams<{ "id-cancha": string }>();
     const [cancha, setCancha] = useState<Cancha | null>(null);
     const [loading, setLoading] = useState(true);
+
+    // Variables de entorno a eliminar 
     const [enviando, setEnviando] = useState(false);
     const [confirmada, setConfirmada] = useState(false);
+    const [mostrarDialogo, setMostrarDialogo] = useState(false);
 
     const fecha = searchParams.get("fecha");
     const inicio = searchParams.get("inicio");
@@ -44,13 +47,23 @@ export default function ReservaPage() {
         fetchCancha();
     }, [id]);
 
+    // Muestra el aviso unos segundos después de entrar a la página
+    useEffect(() => {
+        if (!turnoValido) return;
+        const timer = setTimeout(() => {
+            setMostrarDialogo(true);
+        }, 3000);
+
+        return () => clearTimeout(timer);
+    }, [turnoValido]);
+
     const enviarFormulario = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setEnviando(true);
 
-    setTimeout(() => {
-        setEnviando(false);
-        setConfirmada(true);
+        setTimeout(() => {
+            setEnviando(false);
+            setConfirmada(true);
         }, 400);
     };
 
@@ -82,48 +95,57 @@ export default function ReservaPage() {
                 </section>
                 ) : (
                 <>
-                    <div className="mb-6">
-                        <p className="text-sm font-bold uppercase tracking-widest text-[#243054]/50">
-                            Paso 2 de 2
-                        </p>
-                        <h2 className="mt-2 text-2xl font-extrabold">Tus datos</h2>
-                        <p className="mt-1 text-sm text-[#243054]/60">
-                            Completá el formulario para continuar con la reserva.
-                        </p>
+                    <div className="mb-2 px-2">
+                        <h2 className="mt-2 text-2xl font-extrabold">Completá con tus datos</h2>
                     </div>
 
                     <div className="mb-6 rounded-xl border border-[#243054]/10 bg-white p-5">
-                        <p className="text-xs font-bold uppercase tracking-widest text-[#243054]/50">
+                        <p className="text-sm font-bold uppercase tracking-widest text-[#243054]/50">
                             Turno elegido
                         </p>
-                        <p className="mt-2 font-extrabold">
+                        <p className="text-lg font-extrabold">
                             {cancha?.nombre} - {cancha?.tipo}
                         </p>
-                        <p className="mt-1 text-sm text-[#243054]/65">
+                        <p className="text-sm text-[#243054]/65">
                             {fecha} · {inicio} a {fin}
                         </p>
                     </div>
 
-                    <form onSubmit={enviarFormulario} className="flex flex-col gap-5 rounded-xl border border-[#243054]/10 bg-white p-5" >
-                        <label className="flex flex-col gap-2 text-sm font-bold" htmlFor="nombre" >
+                    <form onSubmit={enviarFormulario} className="flex flex-col gap-5 py-3" >
+                        <label className="flex flex-col text-md font-bold" htmlFor="nombre" >
                             Nombre completo
-                            <input id="nombre" name="nombre" type="text" required autoComplete="name" placeholder="Ej: Juan Pérez" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054]" />
+                            <input id="nombre" name="nombre" type="text" required autoComplete="name" placeholder="Ej: Juan Pérez" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054] bg-white" />
                         </label>
-                        <label className="flex flex-col gap-2 text-sm font-bold" htmlFor="telefono" >
+                        <label className="flex flex-col text-md font-bold" htmlFor="telefono" >
                             Teléfono
-                            <input id="telefono" name="telefono" type="tel" required autoComplete="tel" placeholder="Ej: 11 1234 5678" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054]" />
+                            <input id="telefono" name="telefono" type="tel" required autoComplete="tel" placeholder="Ej: 11 1234 5678" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054] bg-white" />
                         </label>
-                        <label className="flex flex-col gap-2 text-sm font-bold" htmlFor="email" >
+                        <label className="flex flex-col text-md font-bold" htmlFor="email" >
                             Email
-                            <input id="email" name="email" type="email" required autoComplete="email" placeholder="tu@email.com" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054]" />
+                            <input id="email" name="email" type="email" required autoComplete="email" placeholder="tu@email.com" className="rounded-lg border border-[#243054]/15 px-4 py-3 font-normal outline-none focus:border-[#243054] bg-white" />
                         </label>
-                        <button type="submit" disabled={enviando} className="mt-2 cursor-pointer rounded-lg bg-[#243054] px-5 py-3 font-extrabold text-white transition hover:bg-[#1a2340] disabled:cursor-wait disabled:opacity-60" >
+                        <button type="submit" disabled={enviando} className="cursor-pointer rounded-lg bg-[#243054] px-5 py-3 font-extrabold text-white transition hover:bg-[#1a2340] disabled:cursor-wait disabled:opacity-60" >
                             {enviando ? "Guardando datos..." : "Confirmar reserva"}
                         </button>
                     </form>
                 </>
                 )}
             </main>
+
+            {mostrarDialogo && !confirmada && (
+                <div className="fadeTop fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-4">
+                    <div className="w-full max-w-3xl rounded-xl border border-[#243054]/10 bg-white p-5 shadow-sm">
+                        <div className="flex items-start justify-between gap-4">
+                            <p className="text-sm text-[#243054]/70">
+                                Completá el formulario para continuar con la reserva e ingresa el token enviado a tu correo para confirmar tu turno.
+                            </p>
+                            <button type="button" onClick={() => setMostrarDialogo(false)} className="shrink-0 cursor-pointer text-sm font-extrabold text-[#243054]/50 hover:text-[#243054]" aria-label="Cerrar" >
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
