@@ -103,17 +103,6 @@ export default function Footer() {
                     <p>
                         © 2026 Canchita. Todos los derechos reservados.
                     </p>
-                    <div className="flex items-center gap-5">
-                        <Link href="/#inicio" className="hover:text-white">
-                            Inicio
-                        </Link>
-                        <Link href="/admin" className="hover:text-white">
-                            Administrador
-                        </Link>
-                        <Link href="/#contacto" className="hover:text-white">
-                            Contacto
-                        </Link>
-                    </div>
                 </div>
             </div>
         </footer>
