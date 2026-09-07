@@ -85,6 +85,43 @@ function Page() {
         );
     };
 
+    // Resuelve qué mostrar en el bloque de "Horarios disponibles" según el
+    // estado actual (cargando / error / sin turnos / con turnos), sin
+    // necesidad de encadenar ternarias.
+    function renderHorarios() {
+        if (loadingTurnos) {
+            return (
+                <p className="mt-4 text-center text-[#243054]/60">
+                    Buscando horarios...
+                </p>
+            );
+        }
+
+        if (turnos.length === 0) {
+            if (errorTurnos) {
+                return <p className="mt-4 text-center text-red-600">{errorTurnos}</p>;
+            }
+
+            // Si no hay turnos disponibles pero tampoco un error, es porque
+            // se reservaron todos.
+            return (
+                <p className="mt-4 text-center text-[#243054]/60">
+                    No hay turnos disponibles para esta cancha y fecha.
+                </p>
+            );
+        }
+
+        // Hay turnos disponibles
+        return (
+            <div>
+                {errorTurnos && (
+                    <p className="mt-4 text-center text-amber-700">{errorTurnos}</p>
+                )}
+                <TurnosDisponibles turnos={turnos} turnoSeleccionado={turnoSeleccionado} onSeleccionar={setTurnoSeleccionado} onConfirmar={confirmarTurno} />
+            </div>
+        );
+    }
+
     if (loading) { return <Loader /> }
 
     return (
@@ -94,36 +131,16 @@ function Page() {
                 <h2 className="font-extrabold text-xl md:text-2xl md:text-center">
                     Seleccionar Fecha
                 </h2>
+
                 <div className="flex justify-center">
                     <SelectorFecha value={fechaSeleccionada} onChange={(nuevaFecha) => { setFechaSeleccionada(nuevaFecha); setTurnoSeleccionado(null); }} />
                 </div>
+
                 <div className='border-t-2 border-gray-200'>
                     <h2 className="mt-8 font-extrabold text-xl md:text-2xl md:text-center">
                         Horarios disponibles
                     </h2>
-                    {loadingTurnos ? (
-                        <p className="mt-4 text-center text-[#243054]/60">
-                        Buscando horarios...
-                        </p>
-                    ) : // Se encontraron los turnos
-                    turnos.length === 0 ? (
-                        errorTurnos ? (
-                        <p className="mt-4 text-center text-red-600">{errorTurnos}</p>
-                        ) : (
-                        // Si no hay turnos disponibles pero tampoco un error, es porque se reservaron todos
-                        <p className="mt-4 text-center text-[#243054]/60">
-                            No hay turnos disponibles para esta cancha y fecha.
-                        </p>
-                        )
-                    ) : (
-                        // Hay turnos disponibles
-                        <div>
-                        {errorTurnos && (
-                            <p className="mt-4 text-center text-amber-700">{errorTurnos}</p>
-                        )}
-                        <TurnosDisponibles turnos={turnos} turnoSeleccionado={turnoSeleccionado} onSeleccionar={setTurnoSeleccionado} onConfirmar={confirmarTurno} />
-                        </div>
-                    )}
+                    {renderHorarios()}
                 </div>
             </div>
         </div>

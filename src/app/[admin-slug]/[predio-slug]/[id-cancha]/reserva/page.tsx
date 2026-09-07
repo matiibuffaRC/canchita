@@ -13,21 +13,48 @@ type Cancha = {
     tipo: string;
 };
 
+type ReservaDraft = {
+    idCancha: number | null,
+    nombreCliente: string | null,
+    telefonoCliente: string | null,
+    emailCliente: string | null,
+    fecha: string | null,
+    horaInicio: string | null,
+    horaFin: string | null,
+    estado: string
+}
+
 export default function ReservaPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { "id-cancha": id } = useParams<{ "id-cancha": string }>();
+    const idCancha = parseInt(id, 10);
+    
+    // Variables de estado
     const [cancha, setCancha] = useState<Cancha | null>(null);
     const [loading, setLoading] = useState(true);
-
     const [enviando, setEnviando] = useState(false);
     const [confirmada, setConfirmada] = useState(false);
     const [mostrarDialogo, setMostrarDialogo] = useState(false);
+    
+    // Variable donde almacenamos los datos de la reserva
+    const [reserva, setReserva] = useState<ReservaDraft>({
+        idCancha: null,
+        nombreCliente: null,
+        telefonoCliente: null,
+        emailCliente: null,
+        fecha: null,
+        horaInicio: null,
+        horaFin: null,
+        estado: "pendiente"
+    });
 
+    // Obtenemos los datos necesarios en la URL
     const fecha = searchParams.get("fecha");
     const inicio = searchParams.get("inicio");
     const fin = searchParams.get("fin");
-    const turnoValido = Boolean(fecha && inicio && fin);
+
+    const turnoValido = Boolean(fecha && inicio && fin); // Si existen todos, es válido (NO chequea que estén disponibles, solo que existan)
 
     useEffect(() => {
         if (!id) return;
@@ -46,6 +73,7 @@ export default function ReservaPage() {
             }
         };
         fetchCancha();
+        console.log("Día: " + fecha + " | Inicio: " + inicio + " | Fin " + fin)
     }, [id]);
 
     // Este timeout es para que la ventanita no se muestre enseguida, sino que se cumpla la animación
@@ -58,29 +86,28 @@ export default function ReservaPage() {
         return () => clearTimeout(timer);
     }, [turnoValido]);
 
+    
 
-    // Ver bien cuando conectemos con el backend
     const handleSubmitReserva = async (datos: DatosReserva) => {
         setEnviando(true);
-
-        try {
-            // Ejemplo de integración futura:
-            // const result = await fetch("/api/reservas", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({ ...datos, canchaId: id, fecha, inicio, fin }),
-            // });
-            // if (!result.ok) throw new Error("No se pudo crear la reserva");
-
-            console.log("Datos de la reserva:", datos);
-
-            setConfirmada(true);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setEnviando(false);
-        }
+        console.log("Datos de la reserva:", datos);
+        
+        setReserva(prev=> ({
+            ...prev,
+            idCancha: idCancha,
+            nombreCliente: datos.nombre,
+            telefonoCliente: datos.telefono,
+            emailCliente: datos.email,
+            fecha: fecha,
+            horaInicio: inicio,
+            horaFin: fin,
+        }))
     };
+
+    // Imprimimos correctamente la reserva POR FIN
+    useEffect(()=>{
+        console.log(reserva)
+    },[reserva])
 
     if (loading) return <Loader />;
 
