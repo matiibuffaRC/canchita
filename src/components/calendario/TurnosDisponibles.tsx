@@ -15,7 +15,7 @@ export function TurnosDisponibles({ turnos, turnoSeleccionado, onSeleccionar, on
                     const seleccionado = turnoSeleccionado?.inicio === turno.inicio;
 
                     return (
-                        <button key={turno.inicio} type="button" disabled={!turno.disponible} aria-pressed={seleccionado} onClick={() => onSeleccionar(turno)} className={`cursor-pointer rounded-lg border-2  py-2.5 text-sm font-bold transition ${ !turno.disponible ? "cursor-not-allowed border-[#243054]/10 bg-[#243054]/5 text-[#243054]/35 line-through" : seleccionado ? "border-2 shadow-md border-[#243054]" : "border-[#243054]/15 bg-white text-[#243054] hover:border-[#243054] hover:bg-[#243054] hover:text-white" }`} >
+                        <button key={turno.inicio} type="button" disabled={!turno.disponible} aria-pressed={seleccionado} onClick={() => onSeleccionar(turno)} className={`cursor-pointer rounded-lg border-2  py-2.5 text-sm font-bold transition ${ !turno.disponible ? "cursor-not-allowed border-[#243054]/10 bg-[#243054]/5 text-[#243054]/35 line-through" : seleccionado ? "border-2 shadow-md border-[#243054]" : "border-[#243054]/15 bg-white text-[#243054] hover:border-[#243054]" }`} >
                             {turno.inicio} - {turno.fin}
                         </button>
                     );

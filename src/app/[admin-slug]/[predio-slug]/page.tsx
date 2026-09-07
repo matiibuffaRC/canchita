@@ -19,31 +19,14 @@ type Cancha = {
     tipo: string
 }
 
-type ReservaDraft = {
-    predioId: number | null;
-    canchaId: number | null;
-    fecha: string | null;
-    horario: string | null;
-};
-
 function Page() {
     const { "admin-slug": adminSlug, "predio-slug": slug, } = useParams<{ "admin-slug": string; "predio-slug": string; }>();
     const [canchas, setCanchas] = useState<Cancha[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [reservaEnCurso, setReservaEnCurso] = useState<ReservaDraft>({
-        predioId: null,
-        canchaId: null,
-        fecha: null,
-        horario: null,
-    });
 
     // Función para obtener el nombre del predio a partir del slug y lo hacemos empezar con mayúscula
     const nombrePredio = slug ? (() => { const texto = decodeURIComponent(slug).replace(/-/g, " "); return texto.charAt(0).toUpperCase() + texto.slice(1); })() : "";
-
-    const actualizarReserva = (campos: Partial<ReservaDraft>) => {
-        setReservaEnCurso((prev) => ({ ...prev, ...campos }));
-    };
 
     useEffect(() => {
         if (!slug) return;
@@ -61,10 +44,6 @@ function Page() {
                 const data = await result.json();
                 setCanchas(data.canchas);
 
-                if (data.canchas.length > 0) {
-                    actualizarReserva({ predioId: data.canchas[0].id_predio });
-                }
-
             } catch (error) {
                 const message = error instanceof Error ? error.message : "Ha ocurrido un error al obtener las canchas del predio";
                 console.error("Ocurrió un error obteniendo las canchas del predio: ", message);
@@ -78,9 +57,6 @@ function Page() {
     }, [slug]);
 
 
-    // useEffect(()=>{
-    //     console.log("Reserva en curso actualizada: ", reservaEnCurso)
-    // },[reservaEnCurso])
 
     if (loading) return <Loader />;
 
@@ -98,7 +74,7 @@ function Page() {
                 {error ? 
                     ( <p className="mt-3 text-sm text-red-500">{error}</p>) 
                     : 
-                    ( <CanchasList canchas={canchas} predioSlug={slug} adminSlug={adminSlug} onSelectCancha={(id) => actualizarReserva({ canchaId: id })} />)
+                    ( <CanchasList canchas={canchas} predioSlug={slug} adminSlug={adminSlug} />)
                 }
             </div>
         </div>

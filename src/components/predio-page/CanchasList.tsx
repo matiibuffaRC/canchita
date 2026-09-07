@@ -15,10 +15,9 @@ type Props = {
     predioSlug:string,
     adminSlug:string,
     canchas: Cancha[];
-    onSelectCancha: (id: number) => void;
 };
 
-function CanchasList({ canchas, onSelectCancha, predioSlug, adminSlug }: Props) {
+function CanchasList({ canchas, predioSlug, adminSlug }: Props) {
     if (canchas.length === 0) {
         return (
             <p className="mt-3 text-sm text-[#243054]/60">
@@ -30,7 +29,7 @@ function CanchasList({ canchas, onSelectCancha, predioSlug, adminSlug }: Props) 
     return (
         <div className="mt-2 flex flex-col md:flex-row gap-3">
             {canchas.map((cancha) => (
-                <CanchaCard key={cancha.id_cancha} cancha={cancha} predioSlug={predioSlug} adminSlug={adminSlug} onSelect={() => onSelectCancha(cancha.id_cancha)} />
+                <CanchaCard key={cancha.id_cancha} cancha={cancha} predioSlug={predioSlug} adminSlug={adminSlug} />
             ))}
         </div>
     );
