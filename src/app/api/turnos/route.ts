@@ -32,3 +32,42 @@ export async function GET(request: NextRequest) {
         );
     }
 }
+
+export async function POST(request: NextRequest) {
+    try {
+        const body = await request.json();
+        const {
+            idCancha,
+            nombreCliente,
+            telefonoCliente,
+            emailCliente,
+            fecha,
+            horaInicio,
+            horaCierre
+        } = body;
+
+        console.log("Body recibido: ", body)
+
+        if (!idCancha || !nombreCliente || !fecha || !horaInicio) {
+            return NextResponse.json(
+                { error: "Faltan datos obligatorios" },
+                { status: 400 }
+            );
+        }
+        
+        return NextResponse.json(
+            {
+                message: "Reserva creada correctamente",
+                reserva: body
+            },
+            { status: 201 }
+        );
+    }catch(error){
+        console.log("Error desde el backend: ", error);
+        return NextResponse.json(
+            { message: "La reserva no se pudo crear", },
+            { status: 201 }
+        );
+    }
+    
+}

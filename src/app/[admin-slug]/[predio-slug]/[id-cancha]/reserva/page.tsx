@@ -56,6 +56,24 @@ export default function ReservaPage() {
 
     const turnoValido = Boolean(fecha && inicio && fin); // Si existen todos, es válido (NO chequea que estén disponibles, solo que existan)
 
+
+    const almacenarReserva = async() => {
+        try {
+            const result = await fetch('/api/turnos', {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(reserva)
+            })
+            const data = await result;
+            console.log(data)
+        }catch(error){
+            console.log(error)
+        }
+    } 
+    
+    // Obtenemos los datos de la cancha a reservar
     useEffect(() => {
         if (!id) return;
         const fetchCancha = async () => {
@@ -73,7 +91,7 @@ export default function ReservaPage() {
             }
         };
         fetchCancha();
-        console.log("Día: " + fecha + " | Inicio: " + inicio + " | Fin " + fin)
+        // console.log("Día: " + fecha + " | Inicio: " + inicio + " | Fin " + fin);
     }, [id]);
 
     // Este timeout es para que la ventanita no se muestre enseguida, sino que se cumpla la animación
@@ -86,11 +104,10 @@ export default function ReservaPage() {
         return () => clearTimeout(timer);
     }, [turnoValido]);
 
-    
-
+    // Tomamos los datos del formulario
     const handleSubmitReserva = async (datos: DatosReserva) => {
         setEnviando(true);
-        console.log("Datos de la reserva:", datos);
+        // console.log("Datos de la reserva:", datos);
         
         setReserva(prev=> ({
             ...prev,
@@ -106,7 +123,8 @@ export default function ReservaPage() {
 
     // Imprimimos correctamente la reserva POR FIN
     useEffect(()=>{
-        console.log(reserva)
+        // console.log(reserva);
+        almacenarReserva();
     },[reserva])
 
     if (loading) return <Loader />;
