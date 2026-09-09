@@ -22,7 +22,7 @@ type ReservaDraft = {
     emailCliente: string | null,
     fecha: string | null,
     horaInicio: string | null,
-    horaFin: string | null,
+    horarioCierre: string | null,
     estado: string
 }
 
@@ -47,7 +47,7 @@ export default function ReservaPage() {
         emailCliente: null,
         fecha: null,
         horaInicio: null,
-        horaFin: null,
+        horarioCierre: null,
         estado: "pendiente"
     });
 
@@ -119,7 +119,7 @@ export default function ReservaPage() {
             emailCliente: datos.email,
             fecha,
             horaInicio: inicio,
-            horaFin: fin,
+            horarioCierre: fin,
             estado: "pendiente"
         };
 

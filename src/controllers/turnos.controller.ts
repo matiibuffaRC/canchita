@@ -1,4 +1,15 @@
-import { getTurnosReservados, TurnoReservado } from "@/src/models/turnos.model";
+import { getTurnosReservados, TurnoReservado, postTurnosDB } from "@/src/models/turnos.model";
+
+type Turno = {
+    idCancha: number,
+    nombreCliente: string,
+    telefonoCliente: string,
+    emailCliente: string,
+    fecha: string,
+    horaInicio: string,
+    horarioCierre: string
+    estado: string
+}
 
 export async function obtenerTurnosPorCanchaYFecha( idCancha: string, fecha: string, ): Promise<TurnoReservado[]> {
     const idCanchaNum = Number(idCancha);
@@ -9,4 +20,9 @@ export async function obtenerTurnosPorCanchaYFecha( idCancha: string, fecha: str
 
     const turnos = await getTurnosReservados(idCanchaNum, fecha);
     return turnos;
+}
+
+export async function postTurnos (turno: Turno) {
+    const result = await postTurnosDB(turno);
+    return result;
 }

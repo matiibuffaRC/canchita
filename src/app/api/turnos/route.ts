@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { obtenerTurnosPorCanchaYFecha } from "@/src/controllers/turnos.controller";
+import { obtenerTurnosPorCanchaYFecha, postTurnos } from "@/src/controllers/turnos.controller";
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const body = await request.json();
+        const bodyTurno = await request.json();
         const {
             idCancha,
             nombreCliente,
@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
             fecha,
             horaInicio,
             horaCierre
-        } = body;
+        } = bodyTurno;
 
-        console.log("Body recibido: ", body)
+        console.log("Body recibido: ", bodyTurno)
 
         if (!idCancha || !nombreCliente || !fecha || !horaInicio) {
             return NextResponse.json(
@@ -58,10 +58,11 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             {
                 message: "Reserva creada correctamente",
-                reserva: body
+                reserva: bodyTurno
             },
             { status: 201 }
         );
+        postTurnos(bodyTurno)
     }catch(error){
         console.log("Error desde el backend: ", error);
         return NextResponse.json(

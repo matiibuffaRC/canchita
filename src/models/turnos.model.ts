@@ -4,10 +4,18 @@ export type TurnoReservado = {
     horaInicio: string;
 };
 
-export async function getTurnosReservados(
+type Turno = {
     idCancha: number,
-    fecha: string, // "YYYY-MM-DD"
-): Promise<TurnoReservado[]> {
+    nombreCliente: string,
+    telefonoCliente: string,
+    emailCliente: string,
+    fecha: string,
+    horaInicio: string,
+    horarioCierre: string
+    estado: string
+}
+
+export async function getTurnosReservados( idCancha: number, fecha: string, ): Promise<TurnoReservado[]> {
     const query = `
         SELECT "horaInicio"
         FROM "Reserva"
@@ -19,4 +27,19 @@ export async function getTurnosReservados(
     const result = await db.query<TurnoReservado>(query, [idCancha, fecha]);
 
     return result.rows;
+}
+
+export async function postTurnosDB(turno: Turno){
+    const result = await db.query(`
+            INSERT INTO Reserva (id_reserva, id_cancha, nombreCliente, telefonoCliente, emailCliente, fecha, horaInicio, horaFin, estado) 
+            VALUES($1, $2, $3, $4, $5, $6, %7, $8, $9)
+            RETURNING *;
+        `
+        ,[turno.idCancha, turno.nombreCliente, turno.telefonoCliente, turno.emailCliente, turno.fecha, turno.horaInicio, turno.horarioCierre, turno.estado],
+    )
+    if (result.rowCount === 0) {
+        throw new Error("No se pudo crear la reserva");
+    }
+
+    return result.rows[0];
 }
