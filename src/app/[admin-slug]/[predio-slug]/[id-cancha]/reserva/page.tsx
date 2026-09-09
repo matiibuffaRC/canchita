@@ -1,8 +1,10 @@
 "use client";
 
+// Import dependencies
 import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
+// Import components
 import { Header } from "@/src/components/header/userPages/Header";
 import { Loader } from "@/src/components/loader/Loader";
 import { AvisoTokenDialog } from "@/src/components/reservas/AvisoTokenDialog";
@@ -57,21 +59,22 @@ export default function ReservaPage() {
     const turnoValido = Boolean(fecha && inicio && fin); // Si existen todos, es válido (NO chequea que estén disponibles, solo que existan)
 
 
-    const almacenarReserva = async() => {
+    const almacenarReserva = async (datosReserva: ReservaDraft) => {
         try {
-            const result = await fetch('/api/turnos', {
+            const result = await fetch('/api/turnos/', {
                 method: "POST",
-                headers: {
-                    "Content-Type" : "application/json"
-                },
-                body: JSON.stringify(reserva)
-            })
-            const data = await result;
-            console.log(data)
-        }catch(error){
-            console.log(error)
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datosReserva)
+            });
+            const data = await result.json();
+            console.log(data);
+            setConfirmada(true); // o lo que corresponda al confirmar
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setEnviando(false);
         }
-    } 
+    };
     
     // Obtenemos los datos de la cancha a reservar
     useEffect(() => {
@@ -91,7 +94,7 @@ export default function ReservaPage() {
             }
         };
         fetchCancha();
-        // console.log("Día: " + fecha + " | Inicio: " + inicio + " | Fin " + fin);
+        console.log("Día: " + fecha + " | Inicio: " + inicio + " | Fin " + fin);
     }, [id]);
 
     // Este timeout es para que la ventanita no se muestre enseguida, sino que se cumpla la animación
@@ -106,26 +109,23 @@ export default function ReservaPage() {
 
     // Tomamos los datos del formulario
     const handleSubmitReserva = async (datos: DatosReserva) => {
+        if (enviando) return; // guarda extra contra doble click/doble submit
         setEnviando(true);
-        // console.log("Datos de la reserva:", datos);
-        
-        setReserva(prev=> ({
-            ...prev,
-            idCancha: idCancha,
+
+        const nuevaReserva: ReservaDraft = {
+            idCancha,
             nombreCliente: datos.nombre,
             telefonoCliente: datos.telefono,
             emailCliente: datos.email,
-            fecha: fecha,
+            fecha,
             horaInicio: inicio,
             horaFin: fin,
-        }))
-    };
+            estado: "pendiente"
+        };
 
-    // Imprimimos correctamente la reserva POR FIN
-    useEffect(()=>{
-        // console.log(reserva);
-        almacenarReserva();
-    },[reserva])
+        setReserva(nuevaReserva);
+        await almacenarReserva(nuevaReserva); 
+    };
 
     if (loading) return <Loader />;
 
