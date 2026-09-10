@@ -88,13 +88,17 @@ export default function ReservaPage() {
         const fetchCancha = async () => {
             try {
                 const result = await fetch(`/api/canchas/${id}`);
+                
                 if (!result.ok) {
                     throw new Error("No se pudo obtener la cancha");
                 }
+
                 const data = await result.json();
                 setCancha(data.cancha);
+
             } catch (error) {
                 console.error(error);
+            
             } finally {
                 setLoading(false);
             }
@@ -126,7 +130,7 @@ export default function ReservaPage() {
             fecha,
             horaInicio: inicio,
             horaFin: fin,
-            estado: "pendiente"
+            estado: "Pendiente"
         };
 
         setReserva(nuevaReserva);
