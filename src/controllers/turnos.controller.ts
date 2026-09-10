@@ -7,7 +7,7 @@ type Turno = {
     emailCliente: string,
     fecha: string,
     horaInicio: string,
-    horarioCierre: string
+    horaFin: string
     estado: string
 }
 
@@ -23,6 +23,6 @@ export async function obtenerTurnosPorCanchaYFecha( idCancha: string, fecha: str
 }
 
 export async function postTurnos (turno: Turno) {
-    const result = await postTurnosDB(turno);
+    const result = await postTurnosDB(turno); // Le enviamos un objeto
     return result;
 }

@@ -43,10 +43,8 @@ export async function POST(request: NextRequest) {
             emailCliente,
             fecha,
             horaInicio,
-            horaCierre
+            horaFin
         } = bodyTurno;
-
-        console.log("Body recibido: ", bodyTurno)
 
         if (!idCancha || !nombreCliente || !fecha || !horaInicio) {
             return NextResponse.json(
@@ -54,6 +52,7 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
+        await postTurnos(bodyTurno);
         
         return NextResponse.json(
             {
@@ -62,12 +61,11 @@ export async function POST(request: NextRequest) {
             },
             { status: 201 }
         );
-        postTurnos(bodyTurno)
     }catch(error){
         console.log("Error desde el backend: ", error);
         return NextResponse.json(
             { message: "La reserva no se pudo crear", },
-            { status: 201 }
+            { status: 500 },
         );
     }
     

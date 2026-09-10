@@ -22,7 +22,7 @@ type ReservaDraft = {
     emailCliente: string | null,
     fecha: string | null,
     horaInicio: string | null,
-    horarioCierre: string | null,
+    horaFin: string | null,
     estado: string
 }
 
@@ -47,8 +47,8 @@ export default function ReservaPage() {
         emailCliente: null,
         fecha: null,
         horaInicio: null,
-        horarioCierre: null,
-        estado: "pendiente"
+        horaFin: null,
+        estado: "Pendiente"
     });
 
     // Obtenemos los datos necesarios en la URL
@@ -66,9 +66,15 @@ export default function ReservaPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(datosReserva)
             });
+
             const data = await result.json();
-            console.log(data);
-            setConfirmada(true); // o lo que corresponda al confirmar
+
+            if (!result.ok) {
+                throw new Error(data.message ?? data.error ?? "No se pudo crear la reserva");
+            }
+
+            console.log(data); // Pude confirmar que los datos se enviaron correctamente
+            setConfirmada(true);
         } catch (error) {
             console.log(error);
         } finally {
@@ -119,7 +125,7 @@ export default function ReservaPage() {
             emailCliente: datos.email,
             fecha,
             horaInicio: inicio,
-            horarioCierre: fin,
+            horaFin: fin,
             estado: "pendiente"
         };
 
