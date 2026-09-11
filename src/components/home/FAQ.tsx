@@ -6,19 +6,24 @@ import { Reveal } from "../motion/Reveal";
 
 const faqItems = [
     {
-        question: "¿Cómo reservo una cancha?",
+        question: "¿Cómo se hacen las reservas?",
         answer:
-        "Elegís el complejo, la cancha, el día y horario disponible, y confirmás con tus datos.",
+        "El cliente selecciona tu complejo, la cancha, la fecha y el horario disponible desde la plataforma. Luego completa sus datos y confirma su reserva mediante correo electrónico.",
     },
     {
-        question: "¿Qué métodos de pago aceptan?",
+        question: "¿Cómo puedo gestionar los métodos de pago de mi complejo?",
         answer:
-        "Depende del complejo: algunos aceptan transferencias y otros solo efectivo.",
+        "Podés configurar los métodos de pago disponibles según tus preferencias, ya sea aceptando transferencias bancarias, seña previa o cobro exclusivamente en efectivo en el establecimiento.",
     },
     {
-        question: "¿Puedo cancelar mi reserva?",
+        question: "¿Cómo se manejan las cancelaciones de turnos?",
         answer:
-        "Sí, podés cancelar o reprogramar desde tu cuenta con anticipación. En algunos casos se requiere de una seña y en otros no.",
+        "Los clientes pueden cancelar o reprogramar su reserva desde su cuenta respetando la anticipación que determines. Podés definir políticas de cancelación con o sin devolución de seña.",
+    },
+    {
+        question: "¿Cómo se previenen las reservas falsas o 'fantasmas'?",
+        answer:
+        "Cada usuario debe verificar la titularidad de su correo electrónico para confirmar la reserva. Además, la plataforma limita a un único turno por día por usuario para evitar bloqueos malintencionados.",
     },
 ];
 
@@ -29,11 +34,11 @@ export default function FAQ() {
         <section id="preguntas" aria-labelledby="faq-title" className="relative scroll-mt-28 bg-white px-6 py-20" >
             <div className="mx-auto max-w-3xl">
                 <div className="text-center">
-                    <span className="nunito text-sm font-semibold uppercase tracking-widest text-[#243054]/50 selection:text-[#243054] selection:bg-white/6">
+                    <span className="nunito text-sm font-semibold uppercase tracking-widest text-[#243054]/50">
                         Preguntas frecuentes
                     </span>
 
-                    <h2 id="faq-title" className="nunito mt-3 text-3xl font-bold text-[#243054] md:text-4xl selection:text-[#243054]/50 selection:bg-white/6" >
+                    <h2 id="faq-title" className="nunito mt-3 text-3xl font-bold text-[#243054] md:text-4xl" >
                         ¿Tenés dudas?
                     </h2>
                 </div>
@@ -51,7 +56,7 @@ export default function FAQ() {
 
                             <div className={`grid transition-all duration-300 ease-in-out  ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`} >
                                 <div className="overflow-hidden">
-                                    <p className="px-6 pb-4 leading-7 text-gray-600 selection:text-[#243054] selection:bg-white/6">
+                                    <p className="px-6 pb-4 leading-7 text-gray-600">
                                         {item.answer}
                                     </p>
                                 </div>
