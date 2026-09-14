@@ -39,9 +39,9 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
 
     return (
         <form onSubmit={handleSubmit} className="w-full max-w-sm" noValidate>
-            <div className="mb-7">
+            <div className="mb-4">
                 <h2 className="text-[32px] font-bold tracking-tight text-[#243054]">Ingresá a tu cuenta</h2>
-                <p className="mt-1 text-sm text-slate-500">Acceso exclusivo para administradores del predio.</p>
+                <p className="text-sm text-slate-500">Acceso exclusivo para administradores del predio.</p>
             </div>
 
             {displayError && (
@@ -50,19 +50,14 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
                 </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-2">
                 <FormField label="Email" icon={<Mail className="h-4 w-4" />} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="admin@tupredio.com" autoComplete="username" />
                 <FormField label="Contraseña" icon={<Lock className="h-4 w-4" />} isPassword value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
             </div>
 
             <div className="mt-4 mb-7 flex items-center justify-between">
                 <label className="flex cursor-pointer select-none items-center gap-2 text-sm text-slate-600">
-                    <input
-                        type="checkbox"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                        className="h-4 w-4 rounded border-slate-300 text-[#243054] focus:ring-[#243054]/20"
-                    />
+                    <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-[#243054] focus:ring-[#243054]/20" />
                     Recordarme
                 </label>
 
@@ -73,11 +68,7 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
                 )}
             </div>
 
-            <button
-                type="submit"
-                disabled={isLoading}
-                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#243054] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#243054]/20 transition hover:bg-[#1c2544] disabled:cursor-not-allowed disabled:opacity-60"
-            >
+            <button type="submit" disabled={isLoading} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#243054] py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#243054]/20 transition hover:bg-[#1c2544] disabled:cursor-not-allowed disabled:opacity-60" >
                 {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {isLoading ? "Ingresando..." : "Iniciar sesión"}
             </button>
