@@ -9,10 +9,16 @@ export interface AdminLoginProps extends LoginFormProps {
 
 export default function AdminLogin({ facilityName = "Canchita", ...formProps }: AdminLoginProps) {
     return (
-        <div className="min-h-screen w-full flex flex-col md:flex-row bg-white nunito">
-            <BrandPanel facilityName={facilityName} title="Gestioná tus turnos desde un solo lugar" description="Reservas, canchas y horarios de tu predio, organizados por día para que nunca se te cruce un turno." />
+        <div className="nunito min-h-screen w-full bg-white md:flex">
+            <div className="md:w-[44%] md:p-6">
+                <BrandPanel
+                    facilityName={facilityName}
+                    title="Gestioná tus turnos desde un solo lugar"
+                    description="Reservas, canchas y horarios de tu predio, organizados por día para que nunca se te cruce un turno."
+                />
+            </div>
 
-            <div className="flex-1 flex items-center justify-center px-6 py-12 md:py-0">
+            <div className="flex flex-1 items-center justify-center px-6 pb-12 pt-3 md:px-16 md:py-12">
                 <LoginForm {...formProps} />
             </div>
         </div>

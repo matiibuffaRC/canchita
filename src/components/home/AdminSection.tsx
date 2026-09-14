@@ -1,4 +1,5 @@
-import Link from "next/link";
+'use client'
+
 import { BarChart3, CalendarClock, UserX } from "lucide-react";
 import { Reveal } from "../motion/Reveal";
 
@@ -18,6 +19,14 @@ const perks = [
 ];
 
 export default function AdminSection() {
+    const handleScrollToSection = (sectionId: string) => {
+        const section = document.getElementById(sectionId);
+
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
+
     return (
         <section id="administradores" aria-labelledby="admin-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-20 text-white" >
             <div aria-hidden="true" className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
@@ -36,9 +45,9 @@ export default function AdminSection() {
                     llamadas ni planillas.
                 </p>
 
-                <Link href="/admin" className="nunito font-bold mt-6 inline-block rounded-4xl bg-white px-7 py-3.5 text-sm text-[#243054] shadow-lg shadow-black/10 transition-all duration-300 hover:-rotate-2 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white" >
+                <button onClick={() => handleScrollToSection("contacto")} className="nunito cursor-pointer font-bold mt-6 inline-block rounded-4xl bg-white px-7 py-3.5 text-sm text-[#243054] shadow-lg shadow-black/10 transition-all duration-300 hover:-rotate-2 hover:bg-white/90 motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white" >
                     Quiero sumar mi cancha
-                </Link>
+                </button>
                 </Reveal>
 
                 <Reveal className="flex w-full max-w-sm flex-col gap-4" delay={0.15}>

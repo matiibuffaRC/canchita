@@ -45,7 +45,7 @@ export default function Hero() {
                         ¿Cómo funciona?
                     </button>
 
-                    <Link href="/admin" className="rounded-4xl border-2 text-sm border-[#243054] px-7 py-3.5 font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#243054] hover:text-white motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
+                    <Link href="/admin/login" className="rounded-4xl border-2 text-sm border-[#243054] px-7 py-3.5 font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#243054] hover:text-white motion-reduce:transition-none motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054] " >
                         Soy administrador
                     </Link>
                 </div>

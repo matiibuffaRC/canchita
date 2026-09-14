@@ -65,7 +65,7 @@ export default function Header() {
                     </nav>
                 </div>
 
-                <Link href="/admin" className="hidden rounded-4xl border-2 border-[#243054] px-5 py-2 text-sm font-semibold transition-all duration-300 bg-[#243054] text-white md:inline-block focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
+                <Link href="/admin/login" className="hidden rounded-4xl border-2 border-[#243054] px-5 py-2 text-sm font-semibold transition-all duration-300 bg-[#243054] text-white md:inline-block focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
                     Soy administrador
                 </Link>
 
@@ -83,7 +83,7 @@ export default function Header() {
                     </button>
                 ))}
 
-                <Link href="/admin" onClick={() => setMenuOpen(false)} className="mt-2 rounded-4xl bg-[#243054] px-5 py-2.5 text-center text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1b2644]" >
+                <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="mt-2 rounded-4xl bg-[#243054] px-5 py-2.5 text-center text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1b2644]" >
                     Soy administrador
                 </Link>
                 </div>
