@@ -13,7 +13,7 @@ export default function LoginPage() {
     async function handleLogin({ email, password, }: { email: string; password: string; }) {
         setIsLoading(true);
         setErrorMessage(null);
-
+        // console.log(email + " | " + password);
         try {
             const res = await fetch("/api/auth/login", {
                 method: "POST",

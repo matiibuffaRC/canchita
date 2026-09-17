@@ -32,7 +32,6 @@ type Admin = {
     slug: string,
 }
 
-
 // Lo que esperamos recibir del backend
 function Page() {
     const { "admin-slug": slug } = useParams<{ "admin-slug": string }>();
@@ -74,7 +73,7 @@ function Page() {
     const printPredios = () => {
         return predios.map((predio) => {
             return (
-                <Link key={predio.id_predio} href={`/${admin?.slug}/${predio.slug}`} aria-label={`Gestionar ${predio.nombre}`} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm transition hover:border-[#243054]/20 hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
+                <Link key={predio.id_predio} href={`/${admin?.slug}/${predio.slug}`} aria-label={`Gestionar ${predio.nombre}`} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-xs transition hover:border-[#243054]/20 hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
                     <FotoGenerica />
                     <div className="min-w-0 flex-1">
                         <h2 className="truncate text-lg font-extrabold text-[#161B2E]">
@@ -92,7 +91,7 @@ function Page() {
                         </p>
                     </div>
 
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition group-hover:bg-[#243054]/5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition group-hover:bg-[#243054]/5 border border-gray-100">
                         <ChevronIcon />
                     </span>
                 </Link>

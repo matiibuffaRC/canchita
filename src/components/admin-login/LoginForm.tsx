@@ -33,6 +33,7 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
         }
 
         await onSubmit({ email, password, rememberMe });
+        
     };
 
     const displayError = errorMessage ?? localError;
