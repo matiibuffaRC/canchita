@@ -1,29 +1,26 @@
-const bcrypt = require('bcrypt');
-import { buscarAdministradores } from "../models/auth.model"
+import bcrypt from "bcrypt";
+import { buscarAdministradores } from "../models/auth.model";
 
 type Admin = {
-    email: string,
-    password: string
-}
+    email: string;
+    password: string;
+};
 
-export const login = async (admin:Admin) => { // Recibimos admin = { email: string, password:string }
+export const login = async (adminData: Admin) => {
+    try {
+        const admin = await buscarAdministradores(adminData.email);
+        if (!admin) return null;
 
-    const adminData = await buscarAdministradores(admin);
+        const passwordValid = await bcrypt.compare(
+            adminData.password,
+            admin.contrasena || ""
+        );
 
-    if (!adminData) {
-        return Error;
-    }
+        if (!passwordValid) return null;
 
-    const passwordCorrecta = await bcrypt.compare(
-        admin.password,
-        adminData.password
-    );
-
-    if (!passwordCorrecta) {
+        const { contrasena: _contrasena, ...safeAdmin } = admin;
+        return safeAdmin;
+    } catch {
         return null;
     }
-
-    // acá continuarías con la creación del JWT
-    return admin;
-
-}
+};
