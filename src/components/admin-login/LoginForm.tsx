@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { Mail, Lock, Loader2 } from "lucide-react";
 import FormField from "./FormField";
+import { ErrorToast } from "./ErrorToast";
 
 export interface AdminLoginData {
     email: string;
@@ -33,14 +34,17 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
         }
 
         await onSubmit({ email, password, rememberMe });
-        
     };
 
     const displayError = errorMessage ?? localError;
 
+    useEffect(() => {
+        if (errorMessage) setLocalError(errorMessage);
+    }, [errorMessage]);
+
     return (
         <form onSubmit={handleSubmit} className="w-full max-w-sm lg:max-w-100" noValidate >
-            <div className="mb-4 lg:mb-3">
+            <div className="mb-2 lg:mb-3">
                 <h2 className="text-[32px] font-bold tracking-tight text-[#243054] lg:text-[28px]">
                     Ingresá a tu cuenta
                 </h2>
@@ -50,9 +54,7 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
             </div>
 
             {displayError && (
-                <div role="alert" className="mb-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 lg:mb-4 lg:px-3 lg:py-2.5 lg:text-xs" >
-                    {displayError}
-                </div>
+                <ErrorToast message={displayError} onClose={() => setLocalError(null)} />
             )}
 
             <div className="space-y-2 lg:space-y-2.5">
@@ -63,13 +65,13 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
             <div className="mt-4 mb-7 flex items-center justify-between lg:mt-3 lg:mb-5">
                 <label className="flex cursor-pointer select-none items-center gap-2 text-sm text-slate-600 lg:text-xs">
                     <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="h-4 w-4 rounded border-slate-300 text-[#243054] focus:ring-[#243054]/20" />
-                Recordarme
+                    Recordarme
                 </label>
 
                 {onForgotPassword && (
-                <button type="button" onClick={onForgotPassword} className="text-sm font-medium text-[#243054] hover:underline lg:text-xs" >
-                    Olvidé mi contraseña
-                </button>
+                    <button type="button" onClick={onForgotPassword} className="text-sm font-medium text-[#243054] hover:underline lg:text-xs" >
+                        Olvidé mi contraseña
+                    </button>
                 )}
             </div>
 
@@ -83,4 +85,4 @@ export default function LoginForm({ onSubmit, onForgotPassword, isLoading = fals
             </p>
         </form>
     );
-}
+    }
