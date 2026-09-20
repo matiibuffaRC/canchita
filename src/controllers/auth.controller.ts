@@ -1,22 +1,9 @@
 import { NextResponse } from "next/server";
 import { login } from "../service/compare";
 
-type Admin = {
-    email: string;
-    password: string;
-};
 
-export const loginController = async (request: Request) => {
+export const loginController = async (email: string, password:string) => {
     try {
-        const adminData = await request.json();
-        const { email, password } = adminData;
-
-        if (!email || !password) {
-            return NextResponse.json(
-                { error: "Faltan datos obligatorios" },
-                { status: 400 }
-            );
-        }
 
         const result = await login({ email, password });
 
