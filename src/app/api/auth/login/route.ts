@@ -8,17 +8,36 @@ type Admin = {
 
 // Login de administradores
 export async function POST(request: NextRequest) {
-    // Lo que hacemos con el route es directamente pasar la petición al controller
+    try {
+        const { email, password } = await request.json();
 
-    const adminData = await request.json();
-    const { email, password } = adminData;
-    
-    if (!email || !password) {
+        if (!email || !password) {
+            return NextResponse.json(
+                { error: "Faltan datos obligatorios" },
+                { status: 400 }
+            );
+        }
+
+        const { token } = await loginController(email, password);
+
+        const response = NextResponse.json({
+            message: "Login exitoso",
+        });
+
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            maxAge: 60 * 60,
+            path: "/",
+        });
+
+        return response;
+
+    } catch (error) {
         return NextResponse.json(
-            { error: "Faltan datos obligatorios" },
-            { status: 400 }
+            { error: "Credenciales inválidas" },
+            { status: 401 }
         );
     }
-
-    return loginController(adminData.email, adminData.password);
 }
