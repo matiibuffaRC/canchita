@@ -4,7 +4,7 @@ export const buscarAdminPorID = async (slug: string) => {
   const result = await db.query(
     `
             SELECT * 
-            FROM "Administrador"
+            FROM public.administrador
             WHERE slug = $1;
             `,
     [slug],
@@ -16,7 +16,7 @@ export const buscarPrediosPorAdmin = async (id: number) => {
   const result = await db.query(
     `
             SELECT * 
-            FROM "Predio"
+            FROM public.predio
             WHERE id_administrador = $1
             `,
     [id],

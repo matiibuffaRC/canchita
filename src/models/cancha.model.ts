@@ -4,7 +4,7 @@ export const buscarPredioPorSlug = async (slug: string) => {
   const result = await db.query(
     `
             SELECT * 
-            FROM "Predio"
+            FROM public.predio
             WHERE slug = $1;
             `,
     [slug],
@@ -18,7 +18,7 @@ export const buscarCanchasPorPredio = async (id: number) => {
   const result = await db.query(
     `
             SELECT * 
-            FROM "Cancha"
+            FROM public.cancha
             WHERE id_predio = $1
             `,
     [id],
@@ -30,7 +30,7 @@ export const buscarCanchaPorId = async (id: number) => {
   const result = await db.query(
     `
             SELECT * 
-            FROM "Cancha"
+            FROM public.cancha
             WHERE id_cancha = $1
         `,
     [id],

@@ -1,45 +1,63 @@
 import { db } from "@/src/lib/db";
 
 export type TurnoReservado = {
-    horaInicio: string;
+  id_reserva: number;
+  id_cancha: number;
+  nombreCliente: string;
+  horaInicio: string;
+  horaFin: string;
+  estado: string;
 };
 
 type Turno = {
-    idCancha: number,
-    nombreCliente: string,
-    telefonoCliente: string,
-    emailCliente: string,
-    fecha: string,
-    horaInicio: string,
-    horaFin: string
-    estado: string
-}
+  idCancha: number;
+  nombreCliente: string;
+  telefonoCliente: string;
+  emailCliente: string;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  estado: string;
+};
 
-export async function getTurnosReservados( idCancha: number, fecha: string, ): Promise<TurnoReservado[]> {
-    const query = `
-        SELECT "horaInicio"
+export async function getTurnosReservados(
+  idCancha: number,
+  fecha: string,
+): Promise<TurnoReservado[]> {
+  const query = `
+        SELECT id_reserva, id_cancha, "nombreCliente", "horaInicio", "horaFin", estado
         FROM "Reserva"
         WHERE id_cancha = $1
             AND "fecha"::date = $2::date
             AND estado != 'Cancelado'
     `;
 
-    const result = await db.query<TurnoReservado>(query, [idCancha, fecha]);
+  const result = await db.query<TurnoReservado>(query, [idCancha, fecha]);
 
-    return result.rows;
+  return result.rows;
 }
 
-export async function postTurnosDB(turno: Turno){
-    const result = await db.query(`
+export async function postTurnosDB(turno: Turno) {
+  const result = await db.query(
+    `
             INSERT INTO "Reserva" (id_cancha, "nombreCliente", "telefonoCliente", "emailCliente", "fecha", "horaInicio", "horaFin", "estado")
             VALUES($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING *;
-        `
-        ,[turno.idCancha, turno.nombreCliente, turno.telefonoCliente, turno.emailCliente, turno.fecha, turno.horaInicio, turno.horaFin, turno.estado],
-    )
-    if (result.rowCount === 0) {
-        throw new Error("No se pudo crear la reserva");
-    }
+        `,
+    [
+      turno.idCancha,
+      turno.nombreCliente,
+      turno.telefonoCliente,
+      turno.emailCliente,
+      turno.fecha,
+      turno.horaInicio,
+      turno.horaFin,
+      turno.estado,
+    ],
+  );
+  if (result.rowCount === 0) {
+    throw new Error("No se pudo crear la reserva");
+  }
 
-    return result.rows[0];
+  return result.rows[0];
 }

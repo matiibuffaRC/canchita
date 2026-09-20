@@ -15,9 +15,11 @@ export const getPredios = async (slug: string) => {
             );
         }
         // DEBEMOS TRABAJAR AL OBJETO COMO DEBE SER 
-        const predios = await buscarPrediosPorAdmin(admin.id_administrador); 
+        const predios = await buscarPrediosPorAdmin(admin.id_administrador);
+        const administrador = { ...admin };
+        delete administrador.contrasena;
         return Response.json({
-            administrador: admin,
+            administrador,
             predios: predios,
         });
     } catch (error) {
