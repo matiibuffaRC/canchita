@@ -30,7 +30,7 @@ export default function AdminSection() {
     return (
         <section id="administradores" aria-labelledby="admin-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-20 text-white" >
             <div aria-hidden="true" className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-            <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 md:flex-row md:justify-between">
+            <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-12 md:flex-row md:justify-between border-t border-white/20 pt-20">
                 <Reveal className="max-w-xl text-center md:text-start">
                 <span className="nunito text-sm font-semibold uppercase tracking-widest text-white/50 selection:text-white selection:bg-bg-white/6">
                     Para administradores

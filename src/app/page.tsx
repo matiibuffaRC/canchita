@@ -29,7 +29,7 @@ export default function Home() {
 
                 <section id="como-funciona" aria-labelledby="steps-title" className="relative scroll-mt-28 overflow-hidden px-6 py-20 text-[#243054]" >
                     <div aria-hidden="true" className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
-                    <div className="relative z-10 mx-auto max-w-6xl border-t border-[#243054]/10 pt-5">
+                    <div className="relative z-10 mx-auto max-w-6xl border-t border-[#243054]/40 pt-5">
                         <div className="mx-auto max-w-2xl text-center">
                             <span className="nunito text-sm font-semibold uppercase tracking-widest text-[#243054]/50 selection:bg-white/10 selection:text-[#243054]">
                                 Simple y rápido

@@ -27,10 +27,10 @@ const testimonials = [
 
 export default function Testimonials() {
     return (
-        <section id="testimonios" aria-labelledby="testimonials-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-20 text-white" >
+        <section id="testimonios" aria-labelledby="testimonials-title" className="relative scroll-mt-28 overflow-hidden bg-[#243054] px-6 py-10 text-white" >
             <div aria-hidden="true" className="pointer-events-none absolute -left-32 -bottom-40 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
 
-            <div className="relative z-10 mx-auto max-w-6xl">
+            <div className="relative z-10 mx-auto max-w-6xl border-t border-white/20 pt-20">
                 <div className="mx-auto max-w-2xl text-center">
                     <span className="nunito text-sm font-semibold uppercase tracking-widest text-white/50 selection:text-white selection:bg-bg-white/6">
                         Lo dicen ellos

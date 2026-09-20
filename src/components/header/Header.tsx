@@ -47,7 +47,7 @@ export default function Header() {
 
     return (
         <header className={`fixed inset-x-0 top-0 z-50 px-4 pt-4 transition-[padding] duration-300`} >
-            <div className={`nunito mx-auto flex w-full items-center justify-between rounded-full border border-[#243054]/10 bg-white/80 px-4 py-3 shadow-lg shadow-[#243054]/5 backdrop-blur-md transition-all duration-700 md:px-6 md:py-3.5 ${scrolled ? "max-w-4xl" : "max-w-5xl"}`} >
+            <div className={`nunito mx-auto flex w-full items-center justify-between rounded-full border border-[#243054]/20 bg-white/80 px-4 py-3 shadow-lg shadow-[#243054]/15 backdrop-blur-md transition-all duration-700 md:px-6 md:py-3.5 ${scrolled ? "max-w-4xl" : "max-w-5xl"}`} >
                 <div className="flex gap-6">
                     <button type="button" className="flex items-center select-none cursor-pointer" onClick={() => { setMenuOpen(false); handleScrollToTop(); }} >
                         <Image src="/icons/IconPNG.png" alt="Logo de Canchita" width={32} height={32} className={`anim-slide-up transition-all duration-100 ${scrolled ? "md:h-7 md:w-7" : "md:h-8 md:w-8"}`} />
@@ -58,14 +58,14 @@ export default function Header() {
 
                     <nav className="hidden items-center gap-4 md:flex">
                         {navLinks.map((link) => (
-                        <button key={link.id} type="button" onClick={() => handleScrollToSection(link.id)} className="text-lg font-bold text-[#243054]/70 transition-colors cursor-pointer hover:text-[#243054]" >
+                        <button key={link.id} type="button" onClick={() => handleScrollToSection(link.id)} className="select-none text-lg font-bold text-[#243054]/70 transition-colors cursor-pointer hover:text-[#243054]" >
                             {link.label}
                         </button>
                         ))}
                     </nav>
                 </div>
 
-                <Link href="/admin/login" className="hidden rounded-4xl border-2 border-[#243054] px-5 py-2 text-sm font-semibold transition-all duration-300 bg-[#243054] text-white md:inline-block focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
+                <Link href="/admin/login" className="select-none hidden rounded-4xl border-2 border-[#243054] px-5 py-2 text-sm font-semibold transition-all duration-300 bg-[#243054] text-white md:inline-block focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
                     Soy administrador
                 </Link>
 
@@ -77,15 +77,15 @@ export default function Header() {
             {/* Menú desplegable mobile */}
             <div id="mobile-menu" className={`nunito mx-auto w-full max-w-4xl overflow-hidden transition-all duration-300 ease-in-out md:hidden ${menuOpen ? "mt-3 max-h-96 opacity-100" : "max-h-0 opacity-0"}`} >
                 <div className="flex flex-col gap-1 rounded-2xl border border-[#243054]/10 bg-white/95 p-4 shadow-lg shadow-[#243054]/5 backdrop-blur-md">
-                {navLinks.map((link) => (
-                    <button key={link.id} type="button" onClick={() => { setMenuOpen(false); handleScrollToSection(link.id); }} className="rounded-lg px-3 py-2.5 text-left text-md font-semibold text-[#243054]/80 transition-colors hover:bg-[#243054]/5 hover:text-[#243054]" >
-                        {link.label}
-                    </button>
-                ))}
+                    {navLinks.map((link) => (
+                        <button key={link.id} type="button" onClick={() => { setMenuOpen(false); handleScrollToSection(link.id); }} className="rounded-lg px-3 py-2.5 text-left text-md font-semibold text-[#243054]/80 transition-colors hover:bg-[#243054]/5 hover:text-[#243054]" >
+                            {link.label}
+                        </button>
+                    ))}
 
-                <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="mt-2 rounded-4xl bg-[#243054] px-5 py-2.5 text-center text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1b2644]" >
-                    Soy administrador
-                </Link>
+                    <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="mt-2 rounded-4xl bg-[#243054] px-5 py-2.5 text-center text-sm font-semibold text-white transition-all duration-300 hover:bg-[#1b2644]" >
+                        Soy administrador
+                    </Link>
                 </div>
             </div>
         </header>
