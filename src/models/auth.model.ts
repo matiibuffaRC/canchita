@@ -5,7 +5,7 @@ export const buscarAdministradores = async(email:string) => {
     // PC de escritorio "Administrador" y en notebook Administrador
     const result = await db.query(
         `SELECT * 
-            FROM Administrador
+            FROM "Administrador"
             WHERE correo = $1 
         `, [email]
     )
