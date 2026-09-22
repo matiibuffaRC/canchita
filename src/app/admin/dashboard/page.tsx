@@ -1,49 +1,55 @@
-'use client'
+"use client";
 
 // Import dependencies
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 // Import components
 import { Loader } from "../../../components/loader/Loader";
+import SideBar from "../../../components/admin-dashboard/SideBar";
 
-function page() {
-    const [emailAdmin, setEmailAdmin] = useState<string|null>(null);
-    const [idAdmin, setIdAdmin] = useState<number|null>(null);
-    const [slugAdmin, setSlugAdmin] = useState<string|null>(null);
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(()=>{
-        const fetchEmailAdmin = async() => {
-            try{
-                const result = await fetch('/api/auth/me');
-                
-                if (!result.ok) {
-                    const body = await result.json().catch(() => null);
+type Admin = {
+  id: number;
+  email: string;
+  slug: string;
+  nombre: string;
+  apellido: string;
+};
 
-                    throw new Error(
-                        body?.message ??
-                            "Ha ocurrido un error al obtener el mail del administrador",
-                    );
-                }
-                const data = await result.json();
-                setEmailAdmin(data.email)
-                setIdAdmin(data.id);
-                setSlugAdmin(data.slug)
-                console.log("Esto se obtuvo: ", data)
-            }catch(error){
+function Page() {
+  const [admin, setAdmin] = useState<Admin | null>(null);
+  const [loading, setLoading] = useState(true);
 
-            }finally{
-                setLoading(false)
-            }
+  useEffect(() => {
+    const fetchEmailAdmin = async () => {
+      try {
+        const result = await fetch("/api/auth/me");
+
+        if (!result.ok) {
+          const body = await result.json().catch(() => null);
+
+          throw new Error(
+            body?.message ??
+              "Ha ocurrido un error al obtener el mail del administrador",
+          );
         }
-        fetchEmailAdmin();
-    },[emailAdmin])
+        const data = await result.json();
+        setAdmin(data);
+        console.log("Esto se obtuvo: ", data);
+      } catch (error) {
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEmailAdmin();
+  }, []);
 
-    if (loading) return <Loader />;
+  if (loading) return <Loader />;
 
-    return (
-        <div>page</div>
-    )
+  return (
+    <main className="min-h-screen bg-[#f4f6f9]">
+      <SideBar admin={admin} />
+    </main>
+  );
 }
 
-export default page
+export default Page;
