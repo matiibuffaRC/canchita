@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { Building2, ChevronDown, CircleDot, MapPin } from "lucide-react";
+import { Building2, ChevronDown, CircleDot, MapPin, SlidersHorizontal } from "lucide-react";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarTrigger, } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 type Admin = {
     slug: string;
@@ -13,23 +14,44 @@ type Admin = {
     email?: string;
 };
 
-type Predio = {
+export type Predio = {
     id_predio: number;
     nombre: string;
     slug: string;
+    direccion?: string;
+    telefono?: string;
 };
 
-type Cancha = {
+export type Cancha = {
     id_cancha: number;
     id_predio: number;
     nombre: string;
+    tipo?: string;
+    precio?: number;
+    duracion?: number;
+    horario_apertura?: string;
+    horario_cierre?: string;
+    hora_apertura?: string;
+    hora_cierre?: string;
 };
 
 type PredioWithCanchas = Predio & { canchas: Cancha[] };
 
-type SideBarProps = { admin: Admin | null };
+export type SidebarSelection = {
+    tipo: "predio" | "cancha";
+    predio: PredioWithCanchas;
+    cancha?: Cancha;
+};
 
-function SideBar({ admin }: SideBarProps) {
+type SideBarProps = {
+    admin: Admin | null;
+    children?: ReactNode;
+    onPrediosLoaded?: (predios: PredioWithCanchas[]) => void;
+    onSelectionChange?: (selection: SidebarSelection) => void;
+    onAsideToggle?: () => void;
+};
+
+function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideToggle }: SideBarProps) {
     const [predios, setPredios] = useState<PredioWithCanchas[]>([]);
     const [prediosOpen, setPrediosOpen] = useState(true);
     const [canchasOpen, setCanchasOpen] = useState(false);
@@ -37,36 +59,44 @@ function SideBar({ admin }: SideBarProps) {
     useEffect(() => {
         if (!admin?.slug) return;
 
-        const fetchAdminData = async () => {
-            const prediosResponse = await fetch(`/api/admins/${admin.slug}/predio`);
-            if (!prediosResponse.ok)
-                throw new Error("No se pudieron obtener los predios");
+    const fetchAdminData = async () => {
+        const prediosResponse = await fetch(`/api/admins/${admin.slug}/predio`);
+        if (!prediosResponse.ok)
+            throw new Error("No se pudieron obtener los predios");
 
-            const { predios: adminPredios } = (await prediosResponse.json()) as {
-                predios: Predio[];
-            };
-            const prediosWithCanchas = await Promise.all(
-                adminPredios.map(async (predio) => {
-                const canchasResponse = await fetch(
-                    `/api/predios/${predio.slug}/canchas`,
-                );
+        const { predios: adminPredios } = (await prediosResponse.json()) as {
+            predios: Predio[];
+        };
+        const prediosWithCanchas = await Promise.all(
+            adminPredios.map(async (predio) => {
+                const canchasResponse = await fetch(`/api/predios/${predio.slug}/canchas`);
                 if (!canchasResponse.ok) return { ...predio, canchas: [] };
 
                 const data = (await canchasResponse.json()) as { canchas: Cancha[] };
-                return { ...predio, canchas: data.canchas ?? [] };
-                }),
-            );
+                // La tabla puede devolver hora_apertura/hora_cierre; el calendario usa nombres normalizados.
+                const canchas = (data.canchas ?? []).map((cancha) => ({
+                    ...cancha,
+                    horario_apertura: cancha.horario_apertura ?? cancha.hora_apertura,
+                    horario_cierre: cancha.horario_cierre ?? cancha.hora_cierre,
+                }));
+                return { ...predio, canchas };
+            }),
+        );
 
             setPredios(prediosWithCanchas);
+            onPrediosLoaded?.(prediosWithCanchas);
+            if (prediosWithCanchas[0]) {
+                    onSelectionChange?.({
+                    tipo: "predio",
+                    predio: prediosWithCanchas[0],
+                });
+            }
         };
 
         fetchAdminData().catch((error: unknown) => {
-            console.error(
-                "Ocurrió un error al cargar el menú del administrador",
-                error,
-            );
+        console.error("Ocurrió un error al cargar el menú del administrador", error);
         });
-    }, [admin?.slug]);
+    }, [admin?.slug, onPrediosLoaded, onSelectionChange]);
 
     const adminName =
         [admin?.nombre, admin?.apellido].filter(Boolean).join(" ") ||
@@ -105,22 +135,23 @@ function SideBar({ admin }: SideBarProps) {
                                         <span>
                                             Predios
                                         </span>
-                                        <ChevronDown
-                                        className={`ml-auto transition-transform duration-500 ${prediosOpen ? "" : "-rotate-90"}`}
-                                        />
+                                        <ChevronDown className={`ml-auto transition-transform duration-500 ${prediosOpen ? "" : "-rotate-90"}`} />
                                     </SidebarMenuButton>
+
                                     {prediosOpen && (
                                         <SidebarMenuSub>
                                         {predios.map((predio) => (
                                             <SidebarMenuSubItem key={predio.id_predio}>
-                                            <SidebarMenuSubButton
-                                                render={
-                                                <Link href={`/${admin?.slug}/${predio.slug}`} />
-                                                }
-                                                className="text-white/75 hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
-                                            >
-                                                <span>{predio.nombre}</span>
-                                            </SidebarMenuSubButton>
+                                                <SidebarMenuSubButton
+                                                    onClick={() =>
+                                                    onSelectionChange?.({ tipo: "predio", predio })
+                                                    }
+                                                    className="text-white/75 hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
+                                                >
+                                                    <span>
+                                                        {predio.nombre}
+                                                    </span>
+                                                </SidebarMenuSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
                                         </SidebarMenuSub>
@@ -151,10 +182,12 @@ function SideBar({ admin }: SideBarProps) {
                                                 {predio.canchas.map((cancha) => (
                                                 <SidebarMenuSubItem key={cancha.id_cancha}>
                                                     <SidebarMenuSubButton
-                                                    render={
-                                                        <Link
-                                                        href={`/${admin?.slug}/${predio.slug}/${cancha.id_cancha}`}
-                                                        />
+                                                    onClick={() =>
+                                                        onSelectionChange?.({
+                                                        tipo: "cancha",
+                                                        predio,
+                                                        cancha,
+                                                        })
                                                     }
                                                     size="sm"
                                                     className="text-white/60 hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
@@ -169,38 +202,56 @@ function SideBar({ admin }: SideBarProps) {
                                         </SidebarMenuSub>
                                     )}
                                 </SidebarMenuItem>
+
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton
+                                        type="button"
+                                        onClick={onAsideToggle}
+                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white hover:cursor-pointer"
+                                        tooltip="Actividades y edición"
+                                    >
+                                        <SlidersHorizontal />
+                                        <span>
+                                            Actividades y edición
+                                        </span>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
-                </SidebarContent>  
+                </SidebarContent>
 
                 <SidebarFooter className="border-t border-white/10 bg-[#243054] p-5 nunito">
-                    <div className="mb-4 rounded-xl border border-dashed border-white/25 bg-white/5 p-4 group-data-[collapsible=icon]:hidden">
-                        <p className="text-sm font-bold text-white">
-                            ¿Necesitás ayuda?
-                        </p>
-                        <p className="mt-1 text-xs leading-relaxed text-white/60">
-                            Nuestro equipo está para darte una mano.
-                        </p>
-                        <Link href="/soporte" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300" >
-                            Contactar soporte
-                            <span aria-hidden="true">→</span>
-                        </Link>
-                    </div>
-
-                    <p className="truncate text-sm font-bold text-white/80 group-data-[collapsible=icon]:hidden">
-                        {admin?.email}
+                <div className="mb-4 rounded-xl border border-dashed border-white/25 bg-white/5 p-4 group-data-[collapsible=icon]:hidden">
+                    <p className="text-sm font-bold text-white">
+                        ¿Necesitás ayuda?
                     </p>
+                    <p className="mt-1 text-xs leading-relaxed text-white/60">
+                        Nuestro equipo está para darte una mano.
+                    </p>
+                    <Link href="/soporte" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300" >
+                        Contactar soporte
+                        <span aria-hidden="true">
+                            →
+                        </span>
+                    </Link>
+                </div>
+
+                <p className="truncate text-sm font-bold text-white/80 group-data-[collapsible=icon]:hidden">
+                    {admin?.email}
+                </p>
                 </SidebarFooter>
-                
             </Sidebar>
-            <section className="flex min-h-screen flex-1 flex-col">
+            <section className="flex h-screen min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
                 <header className="flex h-14 items-center border-b border-[#243054]/10 bg-white px-4">
                     <SidebarTrigger aria-label="Abrir menú" className="text-[#243054]" />
                     <h1 className="nunito ml-2 text-xl font-bold text-[#161b2e]">
                         Panel de administración
                     </h1>
                 </header>
+                <div className="min-h-0 flex-1 overflow-hidden">
+                    {children}
+                </div>
             </section>
         </SidebarProvider>
     );

@@ -37,3 +37,33 @@ export const buscarCanchaPorId = async (id: number) => {
   );
   return result.rows[0];
 };
+
+export async function actualizarCancha(
+  id: number,
+  datos: {
+    nombre: string;
+    tipo: string;
+    precio: number;
+    duracion: number;
+    horario_apertura: string;
+    horario_cierre: string;
+  },
+) {
+  const result = await db.query(
+    `UPDATE "Cancha"
+     SET nombre = $1, tipo = $2, precio = $3, duracion = $4,
+       hora_apertura = $5, hora_cierre = $6
+     WHERE id_cancha = $7
+     RETURNING *`,
+    [
+      datos.nombre,
+      datos.tipo,
+      datos.precio,
+      datos.duracion,
+      datos.horario_apertura,
+      datos.horario_cierre,
+      id,
+    ],
+  );
+  return result.rows[0];
+}

@@ -23,3 +23,17 @@ export const buscarPrediosPorAdmin = async (id: number) => {
   );
   return result.rows;
 };
+
+export async function actualizarPredio(
+  slug: string,
+  datos: { nombre: string; direccion: string; telefono: string },
+) {
+  const result = await db.query(
+    `UPDATE "Predio"
+     SET nombre = $1, direccion = $2, telefono = $3
+     WHERE slug = $4
+     RETURNING *`,
+    [datos.nombre, datos.direccion, datos.telefono, slug],
+  );
+  return result.rows[0];
+}
