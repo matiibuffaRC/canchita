@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Building2, ChevronDown, CircleDot, MapPin, SlidersHorizontal } from "lucide-react";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 
 type Admin = {
     slug: string;
@@ -50,6 +50,49 @@ type SideBarProps = {
     onSelectionChange?: (selection: SidebarSelection) => void;
     onAsideToggle?: () => void;
 };
+
+type SelectionSubButtonProps = {
+    children: ReactNode;
+    className: string;
+    size?: "sm" | "md";
+    onSelect: () => void;
+};
+
+function SelectionSubButton({ children, className, size, onSelect }: SelectionSubButtonProps) {
+    const { isMobile, setOpenMobile } = useSidebar();
+
+    return (
+        <SidebarMenuSubButton
+            size={size}
+            onClick={() => {
+                onSelect();
+                if (isMobile) setOpenMobile(false);
+            }}
+            className={className}
+        >
+            {children}
+        </SidebarMenuSubButton>
+    );
+}
+
+function AsideToggleButton({ onToggle }: { onToggle?: () => void }) {
+    const { isMobile, setOpenMobile } = useSidebar();
+
+    return (
+        <SidebarMenuButton
+            type="button"
+            onClick={() => {
+                onToggle?.();
+                if (isMobile) setOpenMobile(false);
+            }}
+            className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white hover:cursor-pointer"
+            tooltip="Actividades y edición"
+        >
+            <SlidersHorizontal />
+            <span>Actividades y edición</span>
+        </SidebarMenuButton>
+    );
+}
 
 function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideToggle }: SideBarProps) {
     const [predios, setPredios] = useState<PredioWithCanchas[]>([]);
@@ -142,8 +185,8 @@ function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideT
                                         <SidebarMenuSub>
                                         {predios.map((predio) => (
                                             <SidebarMenuSubItem key={predio.id_predio}>
-                                                <SidebarMenuSubButton
-                                                    onClick={() =>
+                                                <SelectionSubButton
+                                                    onSelect={() =>
                                                     onSelectionChange?.({ tipo: "predio", predio })
                                                     }
                                                     className="text-white/75 hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
@@ -151,7 +194,7 @@ function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideT
                                                     <span>
                                                         {predio.nombre}
                                                     </span>
-                                                </SidebarMenuSubButton>
+                                                </SelectionSubButton>
                                             </SidebarMenuSubItem>
                                         ))}
                                         </SidebarMenuSub>
@@ -181,8 +224,8 @@ function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideT
                                             <SidebarMenuSub>
                                                 {predio.canchas.map((cancha) => (
                                                 <SidebarMenuSubItem key={cancha.id_cancha}>
-                                                    <SidebarMenuSubButton
-                                                    onClick={() =>
+                                                    <SelectionSubButton
+                                                    onSelect={() =>
                                                         onSelectionChange?.({
                                                         tipo: "cancha",
                                                         predio,
@@ -193,7 +236,7 @@ function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideT
                                                     className="text-white/60 hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
                                                     >
                                                     <span>{cancha.nombre}</span>
-                                                    </SidebarMenuSubButton>
+                                                    </SelectionSubButton>
                                                 </SidebarMenuSubItem>
                                                 ))}
                                             </SidebarMenuSub>
@@ -204,17 +247,7 @@ function SideBar({ admin, children, onPrediosLoaded, onSelectionChange, onAsideT
                                 </SidebarMenuItem>
 
                                 <SidebarMenuItem>
-                                    <SidebarMenuButton
-                                        type="button"
-                                        onClick={onAsideToggle}
-                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white hover:cursor-pointer"
-                                        tooltip="Actividades y edición"
-                                    >
-                                        <SlidersHorizontal />
-                                        <span>
-                                            Actividades y edición
-                                        </span>
-                                    </SidebarMenuButton>
+                                    <AsideToggleButton onToggle={onAsideToggle} />
                                 </SidebarMenuItem>
                             </SidebarMenu>
                         </SidebarGroupContent>

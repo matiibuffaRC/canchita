@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { X } from "lucide-react";
 
 import type { SidebarSelection } from "../SideBar";
 import ResourceEditor from "./ResourceEditor";
@@ -11,6 +10,7 @@ type DashboardAsideProps = {
   adminSlug: string;
   selection: SidebarSelection | null;
   onSelectionChange: (selection: SidebarSelection) => void;
+  onClose: () => void;
   isOpen: boolean;
 };
 
@@ -18,11 +18,10 @@ export default function DashboardAside({
   adminSlug,
   selection,
   onSelectionChange,
+  onClose,
   isOpen,
 }: DashboardAsideProps) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  if (!selection || !isOpen) return null;
+  if (!selection) return null;
 
   const selectionKey =
     selection.tipo === "cancha"
@@ -30,24 +29,27 @@ export default function DashboardAside({
       : `predio-${selection.predio.id_predio}`;
 
   return (
-    <aside className="flex w-full shrink-0 flex-col lg:h-full lg:w-80 lg:overflow-y-auto lg:pr-1">
-      <button
-        type="button"
-        onClick={() => setMobileOpen((open) => !open)}
-        className="flex items-center justify-between border-y border-[#243054]/10 bg-white px-4 py-3 text-left text-sm font-extrabold text-[#243054] lg:hidden"
-        aria-expanded={mobileOpen}
-      >
-        <span className="flex items-center gap-2">
-          <SlidersHorizontal className="size-4" />
-          Información y próximas actividades
-        </span>
-        <ChevronDown
-          className={`size-4 transition-transform ${mobileOpen ? "rotate-180" : ""}`}
-        />
-      </button>
-      <div
-        className={`${mobileOpen ? "grid" : "hidden"} gap-4 p-4 lg:grid lg:p-0`}
-      >
+    <aside
+      aria-hidden={!isOpen}
+      className={`flex w-full shrink-0 flex-col overflow-hidden transition-[max-height,opacity,transform] duration-500 ease-in-out lg:h-full lg:overflow-y-auto lg:pr-1 lg:transition-[width,opacity,transform] ${
+        isOpen
+          ? "max-h-[1200px] translate-y-0 opacity-100 lg:w-80 lg:translate-x-0 lg:translate-y-0"
+          : "max-h-0 translate-y-4 opacity-0 lg:w-0 lg:translate-x-4 lg:translate-y-0 lg:pr-0"
+      }`}
+    >
+      <div className="relative min-h-0 space-y-4 border-t border-[#243054]/10 p-4 lg:border-0 lg:p-0">
+        <div className="flex items-center justify-between lg:mb-1">
+          <h2 className="text-sm font-extrabold text-[#243054]">Información y actividades</h2>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Cerrar información y actividades"
+            title="Cerrar"
+            className="flex size-8 items-center justify-center rounded-md text-[#243054]/70 transition hover:bg-[#243054]/10 hover:text-[#243054]"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
         <UpcomingReservations adminSlug={adminSlug} />
         <div key={selectionKey}>
           <ResourceEditor selection={selection} onSaved={onSelectionChange} />
