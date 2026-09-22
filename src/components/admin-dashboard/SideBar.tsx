@@ -98,7 +98,7 @@ function SideBar({ admin }: SideBarProps) {
                                     <SidebarMenuButton
                                         type="button"
                                         onClick={() => setPrediosOpen((open) => !open)}
-                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
+                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white hover:cursor-pointer"
                                         tooltip="Predios"
                                     >
                                         <MapPin />
@@ -131,11 +131,13 @@ function SideBar({ admin }: SideBarProps) {
                                     <SidebarMenuButton
                                         type="button"
                                         onClick={() => setCanchasOpen((open) => !open)}
-                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white"
+                                        className="text-white hover:bg-white/10 hover:text-white active:bg-[#243054] active:text-white focus:bg-[#243054] focus:text-white hover:cursor-pointer"
                                         tooltip="Canchas"
                                     >
                                         <CircleDot />
-                                        <span>Canchas</span>
+                                        <span>
+                                            Canchas
+                                        </span>
                                         <ChevronDown className={`ml-auto transition-transform ${canchasOpen ? "" : "-rotate-90"}`} />
                                     </SidebarMenuButton>
                                     {canchasOpen && (
@@ -170,20 +172,34 @@ function SideBar({ admin }: SideBarProps) {
                             </SidebarMenu>
                         </SidebarGroupContent>
                     </SidebarGroup>
-                </SidebarContent>
+                </SidebarContent>  
 
-                <SidebarFooter className="border-t border-white/10 bg-[#243054] p-3">
-                <p className="truncate text-xs text-white/60 group-data-[collapsible=icon]:hidden">
-                    {admin?.email}
-                </p>
+                <SidebarFooter className="border-t border-white/10 bg-[#243054] p-5 nunito">
+                    <div className="mb-4 rounded-xl border border-dashed border-white/25 bg-white/5 p-4 group-data-[collapsible=icon]:hidden">
+                        <p className="text-sm font-bold text-white">
+                            ¿Necesitás ayuda?
+                        </p>
+                        <p className="mt-1 text-xs leading-relaxed text-white/60">
+                            Nuestro equipo está para darte una mano.
+                        </p>
+                        <Link href="/soporte" className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300" >
+                            Contactar soporte
+                            <span aria-hidden="true">→</span>
+                        </Link>
+                    </div>
+
+                    <p className="truncate text-sm font-bold text-white/80 group-data-[collapsible=icon]:hidden">
+                        {admin?.email}
+                    </p>
                 </SidebarFooter>
+                
             </Sidebar>
             <section className="flex min-h-screen flex-1 flex-col">
                 <header className="flex h-14 items-center border-b border-[#243054]/10 bg-white px-4">
-                <SidebarTrigger aria-label="Abrir menú" className="text-[#243054]" />
-                <h1 className="nunito ml-2 text-xl font-bold text-[#161b2e]">
-                    Panel de administración
-                </h1>
+                    <SidebarTrigger aria-label="Abrir menú" className="text-[#243054]" />
+                    <h1 className="nunito ml-2 text-xl font-bold text-[#161b2e]">
+                        Panel de administración
+                    </h1>
                 </header>
             </section>
         </SidebarProvider>
