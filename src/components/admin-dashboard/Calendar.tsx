@@ -6,76 +6,64 @@ import { CalendarDays, CheckCircle2, Clock3, MapPin } from "lucide-react";
 import type { Cancha, SidebarSelection } from "./SideBar";
 import { MetricCard } from "./calendar/MetricCard";
 import { ScheduleGrid } from "./calendar/ScheduleGrid";
-import {
-  getCalendarMetrics,
-  getScheduleHours,
-  getToday,
-} from "./calendar/utils";
+import { getCalendarMetrics, getScheduleHours, getToday } from "./calendar/utils";
 import type { Reserva } from "./calendar/types";
 
 function Calendar({ selection }: { selection: SidebarSelection | null }) {
-  const [date, setDate] = useState(getToday);
-  const [reservas, setReservas] = useState<Reserva[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [date, setDate] = useState(getToday);
+    const [reservas, setReservas] = useState<Reserva[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-  const canchas = useMemo<Cancha[]>(
-    () =>
-      selection
-        ? selection.tipo === "cancha" && selection.cancha
-          ? [selection.cancha]
-          : selection.predio.canchas
-        : [],
-    [selection],
-  );
-
-  useEffect(() => {
-    if (canchas.length === 0) return;
-
-    const fetchReservas = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const responses = await Promise.all(
-          canchas.map((cancha) =>
-            fetch(`/api/turnos?id_cancha=${cancha.id_cancha}&fecha=${date}`),
-          ),
-        );
-        if (responses.some((response) => !response.ok)) {
-          throw new Error("No se pudieron obtener los turnos del calendario");
-        }
-        const data = await Promise.all(
-          responses.map(
-            (response) => response.json() as Promise<{ turnos: Reserva[] }>,
-          ),
-        );
-        setReservas(data.flatMap((item) => item.turnos));
-      } catch (requestError) {
-        setError(
-          requestError instanceof Error
-            ? requestError.message
-            : "No se pudieron cargar los turnos",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchReservas();
-  }, [date, selection, canchas]);
-
-  const { firstHour, lastHour } = useMemo(
-    () => getScheduleHours(canchas),
-    [canchas],
-  );
-  const metrics = getCalendarMetrics(reservas, date);
-
-  if (!selection) {
-    return (
-      <section className="flex min-h-[calc(100vh-3.5rem)] flex-1 items-center justify-center p-6 text-[#243054]/60">
-        Cargando el primer predio...
-      </section>
+    const canchas = useMemo<Cancha[]>(
+        () =>
+            selection
+                ? selection.tipo === "cancha" && selection.cancha
+                ? [selection.cancha]
+                : selection.predio.canchas
+                : [],
+        [selection],
     );
-  }
+
+    useEffect(() => {
+        if (canchas.length === 0) return;
+
+        const fetchReservas = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const responses = await Promise.all( canchas.map((cancha) => fetch(`/api/turnos?id_cancha=${cancha.id_cancha}&fecha=${date}`), ), );
+                if (responses.some((response) => !response.ok)) {
+                    throw new Error("No se pudieron obtener los turnos del calendario");
+                }
+                const data = await Promise.all( responses.map( (response) => response.json() as Promise<{ turnos: Reserva[] }>, ), );
+                setReservas(data.flatMap((item) => item.turnos));
+            } catch (requestError) {
+                setError(
+                requestError instanceof Error
+                    ? requestError.message
+                    : "No se pudieron cargar los turnos",
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchReservas();
+    }, [date, selection, canchas]);
+
+    const { firstHour, lastHour } = useMemo(
+        () => getScheduleHours(canchas),
+        [canchas],
+    );
+    const metrics = getCalendarMetrics(reservas, date);
+
+    if (!selection) {
+        return (
+            <section className="flex min-h-[calc(100vh-3.5rem)] flex-1 items-center justify-center p-6 text-[#243054]/60">
+                Cargando el primer predio...
+            </section>
+        );
+    }
 
     return (
         <section className="min-h-full min-w-0 w-full bg-[#f4f6f9] p-4 md:p-7 md:py-0 nunito">
