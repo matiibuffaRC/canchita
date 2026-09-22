@@ -8,6 +8,8 @@ import { Loader } from "../../../components/loader/Loader";
 
 function page() {
     const [emailAdmin, setEmailAdmin] = useState<string|null>(null);
+    const [idAdmin, setIdAdmin] = useState<number|null>(null);
+    const [slugAdmin, setSlugAdmin] = useState<string|null>(null);
     const [loading, setLoading] = useState(true);
     
     useEffect(()=>{
@@ -25,7 +27,9 @@ function page() {
                 }
                 const data = await result.json();
                 setEmailAdmin(data.email)
-                console.log("Esto se obtuvo: ", data.email)
+                setIdAdmin(data.id);
+                setSlugAdmin(data.slug)
+                console.log("Esto se obtuvo: ", data)
             }catch(error){
 
             }finally{
