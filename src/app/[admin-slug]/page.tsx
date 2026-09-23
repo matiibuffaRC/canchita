@@ -48,8 +48,7 @@ function Page() {
                     const body = await result.json().catch(() => null);
 
                     throw new Error(
-                        body?.message ??
-                            "Ha ocurrido un error al obtener los predios del administrador",
+                        "Ha ocurrido un error al obtener los predios del administrador",
                     );
                 }
 

@@ -66,7 +66,7 @@ export function UpcomingReservations({ adminSlug }: UpcomingReservationsProps) {
                 {reservas.map((reserva) => (
                     <article key={reserva.id_reserva} className="border-b border-gray-300 p-2 py-3 flex gap-5 items-center justify-between" >
                         <div className="flex flex-row items-center gap-5">
-                            <div className="flex flex-col items-center justify-center gap-2 text-xs font-bold text-[#243054]/65">
+                            <div className="flex flex-col items-center justify-center text-xs font-bold text-[#243054]/65">
                             <span>
                                 {formatDate(reserva.fecha)}
                             </span>

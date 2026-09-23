@@ -66,9 +66,9 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
     }
 
     return (
-        <section className="min-h-full min-w-0 w-full bg-[#f4f6f9] p-4 md:p- nunito">
+        <section className="min-h-full min-w-0 w-full bg-[#f4f6f9] p-2 md:p- nunito">
             <div className="mx-auto max-w-375">
-                <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div>
                         <p className="text-sm font-bold uppercase tracking-wider text-[#243054]/55">
                             Cronograma
@@ -95,7 +95,7 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
                     </label>
                 </div>
 
-                <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3">
+                <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-3">
                     <MetricCard label="Turnos" value={reservas.length} icon={<Clock3 />} />
                     <MetricCard label="Pendientes" value={metrics.pendientes} color="text-amber-700" icon={<Clock3 />} />
                     <MetricCard label="Confirmados" value={metrics.confirmados} color="text-emerald-700" icon={<CheckCircle2 />} className="col-span-2 md:col-span-1" />

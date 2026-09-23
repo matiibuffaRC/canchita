@@ -19,7 +19,7 @@ function Field({ label, ...props }: FieldProps) {
     return (
         <label className="grid gap-1 text-xs font-bold text-[#243054]/70">
             {label}
-            <input {...props} className="h-9 rounded-md border border-[#243054]/15 bg-white px-2 text-sm font-normal text-[#161b2e] outline-none focus:border-[#243054]"/>
+            <input {...props} className="h-9 w-full rounded-md border border-[#243054]/15 bg-white px-2 text-sm font-normal text-[#161b2e] outline-none focus:border-[#243054]"/>
         </label>
     );
 }
