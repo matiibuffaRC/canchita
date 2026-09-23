@@ -313,7 +313,7 @@ function SideBar({
       </Sidebar>
       <section className="flex h-screen min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <header className="flex h-14 items-center border-b border-[#243054]/10 bg-white px-4">
-          <SidebarTrigger aria-label="Abrir menú" className="text-[#243054]" />
+          <SidebarTrigger aria-label="Abrir menú" className="text-[#243054] cursor-pointer rounded-full" />
           <h1 className="nunito ml-2 text-xl font-bold text-[#161b2e]">
             Panel de administración
           </h1>

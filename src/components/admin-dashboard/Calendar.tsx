@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, CheckCircle2, Clock3, MapPin } from "lucide-react";
+import { CheckCircle2, Clock3, MapPin } from "lucide-react";
 
 import type { Cancha, SidebarSelection } from "./SideBar";
+import { DatePicker } from "./calendar/DatePicker";
 import { MetricCard } from "./calendar/MetricCard";
 import { ScheduleGrid } from "./calendar/ScheduleGrid";
 import { getCalendarMetrics, getScheduleHours, getToday } from "./calendar/utils";
@@ -17,11 +18,11 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
 
     const canchas = useMemo<Cancha[]>(
         () =>
-            selection
-                ? selection.tipo === "cancha" && selection.cancha
+        selection
+            ? selection.tipo === "cancha" && selection.cancha
                 ? [selection.cancha]
                 : selection.predio.canchas
-                : [],
+            : [],
         [selection],
     );
 
@@ -32,11 +33,18 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
             setLoading(true);
             setError(null);
             try {
-                const responses = await Promise.all( canchas.map((cancha) => fetch(`/api/turnos?id_cancha=${cancha.id_cancha}&fecha=${date}`), ), );
+                const responses = await Promise.all(
+                canchas.map((cancha) => fetch(`/api/turnos?id_cancha=${cancha.id_cancha}&fecha=${date}`)));
                 if (responses.some((response) => !response.ok)) {
-                    throw new Error("No se pudieron obtener los turnos del calendario");
+                    throw new Error(
+                        "No se pudieron obtener los turnos del calendario"
+                    );
                 }
-                const data = await Promise.all( responses.map( (response) => response.json() as Promise<{ turnos: Reserva[] }>, ), );
+                const data = await Promise.all(
+                    responses.map(
+                        (response) => response.json() as Promise<{ turnos: Reserva[] }>,
+                    ),
+                );
                 setReservas(data.flatMap((item) => item.turnos));
             } catch (requestError) {
                 setError(
@@ -77,28 +85,34 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
                             {selection.tipo === "cancha"
                                 ? selection.cancha?.nombre
                                 : selection.predio.nombre}
-                        </h2>
+                            </h2>
                         <p className="mt-1 flex items-center gap-1.5 text-sm text-[#243054]/60">
                             <MapPin className="size-4" />
                             {selection.predio.nombre}
                         </p>
                     </div>
-                    <label className="flex items-center gap-2 rounded-lg border border-[#243054]/10 bg-white px-3 py-2 text-sm font-semibold text-[#243054] shadow-sm max-w-45">
-                        <CalendarDays className="size-4" />
-                        <span className="sr-only">Fecha del calendario</span>
-                        <input
-                            type="date"
-                            value={date}
-                            onChange={(event) => setDate(event.target.value)}
-                            className="bg-transparent outline-none"
-                        />
-                    </label>
+                    <DatePicker date={date} onDateChange={setDate} />
                 </div>
 
                 <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-3">
-                    <MetricCard label="Turnos" value={reservas.length} icon={<Clock3 />} />
-                    <MetricCard label="Pendientes" value={metrics.pendientes} color="text-amber-700" icon={<Clock3 />} />
-                    <MetricCard label="Confirmados" value={metrics.confirmados} color="text-emerald-700" icon={<CheckCircle2 />} className="col-span-2 md:col-span-1" />
+                    <MetricCard
+                        label="Turnos"
+                        value={reservas.length}
+                        icon={<Clock3 />}
+                    />
+                    <MetricCard
+                        label="Pendientes"
+                        value={metrics.pendientes}
+                        color="text-amber-700"
+                        icon={<Clock3 />}
+                    />
+                    <MetricCard
+                        label="Confirmados"
+                        value={metrics.confirmados}
+                        color="text-emerald-700"
+                        icon={<CheckCircle2 />}
+                        className="col-span-2 md:col-span-1"
+                    />
                 </div>
 
                 <div className="mb-3 flex flex-wrap items-center gap-3 text-xs font-semibold text-[#243054]/65">
@@ -123,22 +137,36 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
 
                 <div className="overflow-x-auto border border-[#243054]/10 bg-white shadow-sm">
                     <div className="min-w-160">
-                        <div className="grid border-b border-[#243054]/10" style={{ gridTemplateColumns: `72px repeat(${Math.max(canchas.length, 1)}, minmax(180px, 1fr))`, }} >
-                            <div className="p-3 text-xs font-bold text-[#243054]/50">
-                                Hora
+                        <div
+                            className="grid border-b border-[#243054]/10"
+                            style={{
+                                gridTemplateColumns: `72px repeat(${Math.max(canchas.length, 1)}, minmax(180px, 1fr))`,
+                            }}
+                        >
+                        <div className="p-3 text-xs font-bold text-[#243054]/50">
+                            Hora
+                        </div>
+                        {canchas.map((cancha) => (
+                            <div
+                                key={cancha.id_cancha}
+                                className="border-l border-[#243054]/10 p-3 text-sm font-extrabold text-[#161b2e]"
+                            >
+                                {cancha.nombre}
                             </div>
-                            {canchas.map((cancha) => (
-                                <div key={cancha.id_cancha} className="border-l border-[#243054]/10 p-3 text-sm font-extrabold text-[#161b2e]" >
-                                    {cancha.nombre}
-                                </div>
-                            ))}
+                        ))}
                         </div>
                         {loading ? (
                             <div className="p-10 text-center text-sm text-[#243054]/60">
                                 Cargando turnos...
                             </div>
                         ) : (
-                        <ScheduleGrid canchas={canchas} reservas={reservas} date={date} firstHour={firstHour} lastHour={lastHour} />
+                            <ScheduleGrid
+                                canchas={canchas}
+                                reservas={reservas}
+                                date={date}
+                                firstHour={firstHour}
+                                lastHour={lastHour}
+                            />
                         )}
                     </div>
                 </div>

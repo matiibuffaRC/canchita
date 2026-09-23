@@ -31,3 +31,4 @@ export function TurnosDisponibles({ turnos, turnoSeleccionado, onSeleccionar, on
         </div>
     );
 }
+ 
