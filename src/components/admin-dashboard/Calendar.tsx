@@ -66,7 +66,7 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
     }
 
     return (
-        <section className="min-h-full min-w-0 w-full bg-[#f4f6f9] p-4 md:p-7 md:py-0 nunito">
+        <section className="min-h-full min-w-0 w-full bg-[#f4f6f9] p-4 md:p- nunito">
             <div className="mx-auto max-w-375">
                 <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div>
@@ -83,7 +83,7 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
                             {selection.predio.nombre}
                         </p>
                     </div>
-                    <label className="flex items-center gap-2 rounded-lg border border-[#243054]/10 bg-white px-3 py-2 text-sm font-semibold text-[#243054] shadow-sm">
+                    <label className="flex items-center gap-2 rounded-lg border border-[#243054]/10 bg-white px-3 py-2 text-sm font-semibold text-[#243054] shadow-sm max-w-45">
                         <CalendarDays className="size-4" />
                         <span className="sr-only">Fecha del calendario</span>
                         <input
@@ -121,7 +121,7 @@ function Calendar({ selection }: { selection: SidebarSelection | null }) {
                     </p>
                 )}
 
-                <div className="overflow-x-auto rounded-xl border border-[#243054]/10 bg-white shadow-sm">
+                <div className="overflow-x-auto border border-[#243054]/10 bg-white shadow-sm">
                     <div className="min-w-160">
                         <div className="grid border-b border-[#243054]/10" style={{ gridTemplateColumns: `72px repeat(${Math.max(canchas.length, 1)}, minmax(180px, 1fr))`, }} >
                             <div className="p-3 text-xs font-bold text-[#243054]/50">

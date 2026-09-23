@@ -23,7 +23,7 @@ export default function DashboardAside({ adminSlug, selection, onSelectionChange
         : `predio-${selection.predio.id_predio}`;
 
     return (
-        <aside aria-hidden={!isOpen} className={`flex w-full shrink-0 flex-col overflow-hidden transition-[max-height,opacity,transform] duration-500 ease-in-out lg:h-full lg:overflow-y-auto lg:pr-1 lg:transition-[width,opacity,transform] ${ isOpen ? "max-h-300 translate-y-0 opacity-100 lg:w-80 lg:translate-x-0 lg:translate-y-0" : "max-h-0 translate-y-4 opacity-0 lg:w-0 lg:translate-x-4 lg:translate-y-0 lg:pr-0"}`}>
+        <aside aria-hidden={!isOpen} className={`flex w-full shrink-0 flex-col overflow-hidden transition-[max-height,opacity,transform] duration-500 ease-in-out lg:h-full lg:overflow-y-auto lg:pr-1 lg:transition-[width,opacity,transform] ${ isOpen ? "max-h-300 translate-y-0 opacity-100 lg:w-95 lg:translate-x-0 lg:translate-y-0" : "max-h-0 translate-y-4 opacity-0 lg:w-0 lg:translate-x-4 lg:translate-y-0 lg:pr-0"}`}>
             <div className="relative min-h-0 space-y-4 border-t border-[#243054]/10 p-4 lg:border-0 lg:p-0">
                 <div className="flex items-center justify-between">
                     <h2 className="text-sm font-extrabold text-[#243054]">
@@ -33,9 +33,13 @@ export default function DashboardAside({ adminSlug, selection, onSelectionChange
                         <X className="size-4" />
                     </button>
                 </div>
-                    <UpcomingReservations adminSlug={adminSlug} />
-                <div key={selectionKey}>
-                    <ResourceEditor selection={selection} onSaved={onSelectionChange} />
+                <div className='flex flex-col md:flex-row lg:flex-col gap-3'>
+                    <div className="flex-1">
+                        <UpcomingReservations adminSlug={adminSlug} />
+                    </div>
+                    <div key={selectionKey} className="flex-1">
+                        <ResourceEditor selection={selection} onSaved={onSelectionChange} />
+                    </div>
                 </div>
             </div>
         </aside>

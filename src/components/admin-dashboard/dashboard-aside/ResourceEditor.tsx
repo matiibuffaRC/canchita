@@ -128,11 +128,11 @@ function ResourceEditor({ selection, onSaved }: ResourceEditorProps) {
 
     return (
         <section className="rounded-xl border border-[#243054]/10 bg-white p-4 shadow-sm">
-            <div className="mb-4">
+            <div className="mb-2">
                 <p className="text-xs font-bold uppercase tracking-wide text-[#243054]/50">
                     Editar selección
                 </p>
-                <h2 className="mt-1 font-extrabold text-[#161b2e]">
+                <h2 className="font-extrabold text-[#161b2e]">
                     {isCancha ? "Información de la cancha" : "Información del predio"}
                 </h2>
             </div>
