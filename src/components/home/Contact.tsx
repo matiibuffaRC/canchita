@@ -28,12 +28,12 @@ export default function Contact() {
         <div className="mx-auto max-w-2xl text-center">
           <h2
             id="contact-title"
-            className="nunito mt-3 text-3xl font-bold md:text-4xl selection:text-gray-400 selection:bg-[#243054]"
+            className="nunito mt-3 text-3xl font-bold md:text-4xl"
           >
             ¡Contactanos!
           </h2>
 
-          <p className="nunito text-white/70 selection:text-white selection:bg-[#243054]">
+          <p className="nunito text-white/70">
             Escribinos y te respondemos a la brevedad.
           </p>
         </div>
