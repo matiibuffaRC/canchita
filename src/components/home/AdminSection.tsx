@@ -82,16 +82,17 @@ export default function AdminSection() {
             </div>
         </section>
         <section
-            className='scroll-mt-28 overflow-hidden bg-white px-6 py-20 text-[#243054] flex items-center justify-center max-w-6xl gap-10 mx-auto border-b border-gray-200'
+            className='scroll-mt-28 overflow-hidden bg-white px-6 py-20 text-[#243054] flex flex-col md:flex-row items-center justify-center max-w-7xl gap-10 mx-auto border-b border-gray-200'
         >
             <Image 
-                src="/imgs/adminDashboardView2.png" 
+                src="/imgs/adminDashboardView2.webp" 
                 alt="Vista de panel de los administrador" 
-                width={500} height={500} 
+                width={600} height={500} 
                 priority 
+                style={{ width: "1000px", height: "auto" }}
                 className="relative z-10 shadow-md transition-transform duration-500 hover:scale-105 motion-reduce:transition-none " 
             />
-            <div className='flex flex-col justify-center items-start gap-5'>
+            <div className='flex flex-col justify-center items-center md:items-start gap-5 text-center md:text-start'>
                 <div>
                     <h2 className="nunito text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
                         Dejá de coordinar tus turnos por Whatsapp
