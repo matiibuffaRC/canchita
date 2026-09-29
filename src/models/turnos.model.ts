@@ -93,11 +93,15 @@ export async function getProximasReservasPorAdmin(
   return result.rows;
 }
 
-export async function postTurnosDB(turno: Turno) {
+export async function postTurnosDB(turno: Turno, token: String) {
+  const expiraEn = new Date(
+    Date.now() + 10 * 60 * 1000
+  );
+
   const result = await db.query(
     `
-            INSERT INTO "Reserva" (id_cancha, "nombreCliente", "telefonoCliente", "emailCliente", "fecha", "horaInicio", "horaFin", "estado")
-            VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+            INSERT INTO "Reserva" (id_cancha, "nombreCliente", "telefonoCliente", "emailCliente", "fecha", "horaInicio", "horaFin", "estado", "tokenConfirmacion", "tokenExpira")
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING *;
         `,
     [
@@ -109,11 +113,50 @@ export async function postTurnosDB(turno: Turno) {
       turno.horaInicio,
       turno.horaFin,
       turno.estado,
+      token,
+      expiraEn
+
     ],
   );
   if (result.rowCount === 0) {
     throw new Error("No se pudo crear la reserva");
   }
+
+  return result.rows[0];
+}
+
+export async function buscarReservaPorToken(
+  token: string
+) {
+
+  const result = await db.query(
+    `
+    SELECT *
+    FROM "Reserva"
+    WHERE token_confirmacion = $1
+    `,
+    [token]
+  );
+
+  return result.rows[0];
+}
+
+export async function confirmarReserva(
+  idReserva: number
+) {
+
+  const result = await db.query(
+    `
+    UPDATE "Reserva"
+    SET
+      estado = 'confirmada',
+      token_confirmacion = NULL,
+      confirmado_en = NOW()
+    WHERE id_reserva = $1
+    RETURNING *
+    `,
+    [idReserva]
+  );
 
   return result.rows[0];
 }

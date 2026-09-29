@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
                 { status: 400 }
             );
         }
-        await postTurnos(bodyTurno);
+        await postTurnos(bodyTurno); // Enviamos turno a confirmar
         
         return NextResponse.json(
             {
