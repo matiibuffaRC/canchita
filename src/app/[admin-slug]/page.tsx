@@ -116,7 +116,7 @@ function Page() {
                     </div>
                     <div>
                         <Link 
-                            href="/admin/login" 
+                            href="/mis-turnos" 
                             className="group select-none flex flex-row  items-center gap-2 rounded-4xl border-2 border-[#243054] px-5 py-1.5 text-sm font-extrabold bg-[#243054] text-white" 
                         >
                             Mis turnos

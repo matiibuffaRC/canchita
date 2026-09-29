@@ -17,6 +17,14 @@ export type ProximaReserva = TurnoReservado & {
   nombrePredio: string;
 };
 
+export type ReservaPorEmail = Pick<
+  TurnoReservado,
+  "id_reserva" | "fecha" | "horaInicio" | "horaFin" | "estado"
+> & {
+  nombreCancha: string;
+  nombrePredio: string;
+};
+
 type Turno = {
   idCancha: number;
   nombreCliente: string;
@@ -42,6 +50,23 @@ export async function getTurnosReservados(
 
   const result = await db.query<TurnoReservado>(query, [idCancha, fecha]);
 
+  return result.rows;
+}
+
+export async function getTurnosPorEmail(
+  email: string,
+): Promise<ReservaPorEmail[]> {
+  const query = `
+    SELECT r.id_reserva, r."fecha", r."horaInicio", r."horaFin", r.estado,
+      c.nombre AS "nombreCancha", p.nombre AS "nombrePredio"
+    FROM "Reserva" r
+    INNER JOIN "Cancha" c ON c.id_cancha = r.id_cancha
+    INNER JOIN "Predio" p ON p.id_predio = c.id_predio
+    WHERE LOWER(TRIM(r."emailCliente")) = LOWER($1)
+    ORDER BY r."fecha"::date ASC, r."horaInicio"::time ASC;
+  `;
+
+  const result = await db.query<ReservaPorEmail>(query, [email.trim()]);
   return result.rows;
 }
 
