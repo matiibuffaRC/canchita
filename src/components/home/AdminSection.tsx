@@ -82,22 +82,22 @@ export default function AdminSection() {
             </div>
         </section>
         <section
-            className='scroll-mt-28 overflow-hidden bg-white px-6 py-20 text-[#243054] flex flex-col md:flex-row items-center justify-center max-w-7xl gap-10 mx-auto border-b border-gray-200'
+            className='scroll-mt-28 overflow-hidden bg-white px-6 py-20 text-[#243054] flex flex-col lg:flex-row items-center justify-center max-w-7xl gap-10 mx-auto border-b border-gray-200'
         >
             <Image 
                 src="/imgs/adminDashboardView2.webp" 
                 alt="Vista de panel de los administrador" 
-                width={600} height={500} 
+                width={500} height={500} 
                 priority 
                 style={{ width: "1000px", height: "auto" }}
-                className="relative z-10 shadow-md transition-transform duration-500 hover:scale-105 motion-reduce:transition-none " 
+                className="relative z-10 shadow-md transition-transform duration-500 hover:scale-101 motion-reduce:transition-none " 
             />
-            <div className='flex flex-col justify-center items-center md:items-start gap-5 text-center md:text-start'>
+            <div className='flex flex-col justify-center items-center lg:items-start gap-5 text-center lg:text-start'>
                 <div>
                     <h2 className="nunito text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
                         Dejá de coordinar tus turnos por Whatsapp
                     </h2>
-                    <h3 className="nunito max-w-xl text-md md:text-lg leading-8 text-gray-600 md:mx-0 ">
+                    <h3 className="nunito max-w-xl  text-md md:text-lg leading-8 text-gray-600 md:mx-auto">
                         Tus clientes eligen día y horario desde tu link, las 24 horas. Vos ves la agenda ordenada por día de tus canchas y tus predios.
                     </h3>
                 </div>

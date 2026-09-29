@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-
+import { ArrowRight } from "lucide-react";
 
 // Import icons
 import ChevronIcon from "../../components/icons/Chevron";
@@ -72,7 +72,7 @@ function Page() {
     const printPredios = () => {
         return predios.map((predio) => {
             return (
-                <Link key={predio.id_predio} href={`/${admin?.slug}/${predio.slug}`} aria-label={`Gestionar ${predio.nombre}`} className="flex w-full items-center gap-4 rounded-xl border border-[#243054]/10 bg-white p-4 shadow-xs transition hover:border-[#243054]/20 hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
+                <Link key={predio.id_predio} href={`/${admin?.slug}/${predio.slug}`} aria-label={`Gestionar ${predio.nombre}`} className="flex w-full items-center gap-4 border border-[#243054]/10 bg-white p-4 shadow-xs transition hover:border-[#243054]/20 hover:shadow-md focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#243054]" >
                     <FotoGenerica />
                     <div className="min-w-0 flex-1">
                         <h2 className="truncate text-lg font-extrabold text-[#161B2E]">
@@ -105,11 +105,24 @@ function Page() {
 
             <div className="w-full max-w-3xl">
                 {/* Header con logo — sacá este bloque si ya tenés uno compartido en el layout */}
-                <div className="mb-6 pb-1 flex items-center gap-1 border-b-2 border-[#243054]/10">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
-                        <Image src="/icons/IconPNG.png" alt="Canchita" width={40} height={40} />
+                <div className="mb-6 pb-2 flex items-center justify-between gap-1 border-b-2 border-[#243054]/10" >
+                    <div className='flex items-center' >
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+                            <Image src="/icons/IconPNG.png" alt="Canchita" width={40} height={40} />
+                        </div>
+                        <span className="text-xl font-extrabold text-[#161B2E]">
+                            Canchita
+                        </span>
                     </div>
-                    <span className="text-xl font-extrabold text-[#161B2E]">Canchita</span>
+                    <div>
+                        <Link 
+                            href="/admin/login" 
+                            className="group select-none flex flex-row  items-center gap-2 rounded-4xl border-2 border-[#243054] px-5 py-1.5 text-sm font-extrabold bg-[#243054] text-white" 
+                        >
+                            Mis turnos
+                            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:-rotate-180" />
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="mb-2">
@@ -121,7 +134,7 @@ function Page() {
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col md:flex-row gap-3">
                     {printPredios()}
                 </div>
 
