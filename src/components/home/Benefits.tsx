@@ -177,10 +177,10 @@ function SlotsPreview() {
             {SLOTS.map(({ hour, taken }) => (
                 <li
                     key={hour}
-                    className={`rounded-lg border px-3 py-2 text-center text-sm font-semibold ${
+                    className={`rounded-lg border px-3 py-2 text-center text-sm font-bold ${
                         taken
                         ? "border-[#243054]/70 bg-[#243054]/10 text-[#243054]/70 line-through"
-                        : "border-emerald-300/50 bg-emerald-300/10 text-emerald-200"
+                        : "border-emerald-300 bg-emerald-300/10 text-emerald-300"
                     }`}
                 >
                 {hour}

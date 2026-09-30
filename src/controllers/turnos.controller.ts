@@ -4,6 +4,7 @@ import {
   ReservaPorEmail,
   TurnoReservado,
   postTurnosDB,
+  turnoSolapadoDB,
 } from "@/src/models/turnos.model";
 
 type Turno = {
@@ -40,4 +41,23 @@ export async function obtenerTurnosPorEmail(
 export async function postTurnos(turno: Turno) {
   const result = await postTurnosDB(turno); // Le enviamos un objeto
   return result;
+}
+
+export async function turnoSolapado({
+  idCancha,
+  fecha,
+  horaInicio,
+  horaFin,
+}: {
+  idCancha: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+}) {
+  return turnoSolapadoDB({
+    idCancha,
+    fecha,
+    horaInicio,
+    horaFin,
+  });
 }

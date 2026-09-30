@@ -93,6 +93,32 @@ export async function getProximasReservasPorAdmin(
   return result.rows;
 }
 
+export async function turnoSolapadoDB({
+  idCancha,
+  fecha,
+  horaInicio,
+  horaFin,
+}: {
+  idCancha: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+}): Promise<boolean> {
+  const query = `
+    SELECT 1
+    FROM "Reserva"
+    WHERE id_cancha = $1
+      AND "fecha"::date = $2::date
+      AND estado != 'Cancelado'
+      AND "horaInicio"::time < $4::time
+      AND "horaFin"::time > $3::time
+    LIMIT 1;
+  `;
+
+  const result = await db.query(query, [idCancha, fecha, horaInicio, horaFin]);
+  return (result.rowCount ?? 0) > 0;
+}
+
 export async function postTurnosDB(turno: Turno) {
   const result = await db.query(
     `
