@@ -1,70 +1,74 @@
-import { CalendarDays, Clock3, MapPin, XCircle } from "lucide-react";
-import type { ReservaPorEmail } from "./MisTurnos";
+import { Clock3, MapPin, XCircle } from "lucide-react";
+import type { ReservaPorEmail } from "./types";
 import { obtenerEstadoTurno } from "./utils";
 
 type ReservaTurnoCardProps = {
     turno: ReservaPorEmail;
 };
 
-const estadoStyles: Record<string, string> = {
-    pendiente: "border-amber-300 bg-amber-50 text-amber-900",
-    confirmado: "border-emerald-300 bg-emerald-50 text-emerald-900",
-    cancelado: "border-red-200 bg-red-50 text-red-800",
+// Borde lateral + badge según estado. El azul #243054 queda para los estados neutros.
+const estadoStyles: Record<string, { borde: string; badge: string }> = {
+    pendiente: {
+        borde: "border-amber-400",
+        badge: "border-amber-300 bg-amber-50 text-amber-900",
+    },
+    confirmado: {
+        borde: "border-emerald-500",
+        badge: "border-emerald-300 bg-emerald-50 text-emerald-900",
+    },
+    cancelado: {
+        borde: "border-red-400",
+        badge: "border-red-200 bg-red-50 text-red-800",
+    },
+    finalizado: {
+        borde: "border-[#243054]/25",
+        badge: "border-[#243054]/15 bg-[#243054]/5 text-[#243054]/70",
+    },
 };
 
-function formatearFecha(fecha: string) {
-    const [anio, mes, dia] = fecha.slice(0, 10).split("-").map(Number);
-    return new Intl.DateTimeFormat("es-AR", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    }).format(new Date(anio, mes - 1, dia));
-}
+const estadoDefault = estadoStyles.finalizado;
 
+// Solo dibuja el turno. El día lo muestra una sola vez AgendaDia.
 export function ReservaTurnoCard({ turno }: ReservaTurnoCardProps) {
     const estado = obtenerEstadoTurno(turno);
-    const estadoClass =
-        estadoStyles[estado.toLowerCase()] ??
-        "border-[#243054]/15 bg-[#F4F6F9] text-[#243054]/75";
-    const puedeCancelar =
-        ["pendiente", "confirmado"].includes(estado.toLowerCase()) &&
-        estado.toLowerCase() !== "finalizado";
+    const estilos = estadoStyles[estado.toLowerCase()] ?? estadoDefault;
+    const puedeCancelar = ["pendiente", "confirmado"].includes(
+        estado.toLowerCase(),
+    );
 
     return (
-        <article className={`${estado === "Confirmado" ? "border-emerald-300" : (estado === "Pendiente" ? "border-amber-300" : (estado === "Finalizado" ? "border-gray-300" : "border-red-200"))} border-l-3 border-[#243054]/10 bg-white p-4 shadow-sm shadow-[#243054]/5 sm:p-5`}>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <article
+            className={`min-w-0 rounded-r-lg border-l-4 bg-white p-4 shadow-sm shadow-[#243054]/5 ${estilos.borde}`}
+        >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
-                    <div className="flex items-start gap-3">
-                        <CalendarDays
+                    <p className="flex items-center gap-2 text-base font-extrabold">
+                        <Clock3
                             aria-hidden="true"
-                            className="mt-0.5 h-5 w-5 shrink-0 text-[#26846B]"
+                            className="h-4 w-4 shrink-0 text-[#243054]/50"
                         />
-                        <div className="min-w-0">
-                            <h4 className="wrap-break-word font-extrabold capitalize">
-                                {formatearFecha(turno.fecha)}
-                            </h4>
-                            <p className="mt-1 flex items-center gap-2 text-sm text-[#243054]/65">
-                                <Clock3 aria-hidden="true" className="h-4 w-4 shrink-0" />
-                                <span>
-                                    {turno.horaInicio.slice(0, 5)} a {turno.horaFin.slice(0, 5)}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                    <div className="mt-4 flex items-start gap-3 sm:ml-8">
+                        {turno.horaInicio.slice(0, 5)} a {turno.horaFin.slice(0, 5)}
+                    </p>
+                    <p className="mt-2 flex items-start gap-2 text-sm leading-5">
                         <MapPin
                             aria-hidden="true"
                             className="mt-0.5 h-4 w-4 shrink-0 text-[#243054]/45"
                         />
-                        <p className="min-w-0 text-sm leading-5">
-                            <span className="block font-bold">{turno.nombreCancha}</span>
-                            <span className="text-[#243054]/60 text-xs">{turno.nombrePredio}</span>
-                        </p>
-                    </div>
+                        <span className="min-w-0">
+                            <span className="block wrap-break-words font-bold">
+                                {turno.nombreCancha}
+                            </span>
+                            <span className="block wrap-break-words text-xs text-[#243054]/60">
+                                {turno.nombrePredio}
+                            </span>
+                        </span>
+                    </p>
                 </div>
-                <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end   h-26">
-                    <span className={`w-fit shrink-0 rounded-full border px-3 py-1 text-xs font-bold ${estadoClass}`} >
+
+                <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
+                    <span
+                        className={`w-fit shrink-0 rounded-full border px-3 py-1 text-xs font-bold ${estilos.badge}`}
+                    >
                         {estado}
                     </span>
                     {puedeCancelar && (
@@ -72,9 +76,9 @@ export function ReservaTurnoCard({ turno }: ReservaTurnoCardProps) {
                             type="button"
                             disabled
                             title="La cancelación estará disponible próximamente"
-                            className="inline-flex min-h-5 items-center justify-center gap-2 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-bold text-red-700 opacity-60 disabled:cursor-not-allowed"
+                            className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-red-200 px-3 py-1.5 text-xs font-bold text-red-700 opacity-60 disabled:cursor-not-allowed"
                         >
-                        <XCircle aria-hidden="true" className="h-4 w-4" />
+                            <XCircle aria-hidden="true" className="h-4 w-4" />
                             Cancelar
                         </button>
                     )}
