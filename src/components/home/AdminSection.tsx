@@ -94,10 +94,10 @@ export default function AdminSection() {
             />
             <div className='flex flex-col justify-center items-center lg:items-start gap-5 text-center lg:text-start'>
                 <div>
-                    <h2 className="nunito text-3xl font-bold leading-tight tracking-tight sm:text-5xl">
+                    <h2 className="nunito text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
                         Dejá de coordinar tus turnos por Whatsapp
                     </h2>
-                    <h3 className="nunito max-w-xl  text-md md:text-lg leading-8 text-gray-600 md:mx-auto">
+                    <h3 className="nunito max-w-xl text-md md:text-lg leading-8 text-gray-600 md:mx-auto">
                         Tus clientes eligen día y horario desde tu link, las 24 horas. Vos ves la agenda ordenada por día de tus canchas y tus predios.
                     </h3>
                 </div>
