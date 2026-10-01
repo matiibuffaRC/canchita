@@ -143,7 +143,7 @@ const FEATURES: Array<FeatureCardProps> = [
     const s = STATUS[status];
 
     return (
-        <li className={`min-w-0 border-l-4 bg-white p-4 shadow-sm shadow-[#243054]/5 ${s.border}`} >
+        <li className={`min-w-0 border-l-4 bg-gray-100/50 p-4 shadow-sm shadow-[#243054]/5 ${s.border}`} >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
                     <p className="flex items-center gap-2 text-base font-extrabold">
@@ -252,7 +252,7 @@ export default function Benefits() {
 
                 <div className="mt-10 grid grid-cols-1 gap-2 md:grid-cols-3 md:grid-rows-3">
                 {/* Tarjeta grande: turnos */}
-                <article className="rounded-xl border border-white/10 bg-white/95 p-3 px-4 transition duration-300 md:row-span-2">
+                <article className="rounded-xl border border-white/10 bg-white p-3 px-4 transition duration-300 md:row-span-2">
                     <h3 className="py-1.5 text-lg font-bold text-[#243054]">
                         Gestioná tus turnos
                     </h3>

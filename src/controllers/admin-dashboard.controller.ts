@@ -8,7 +8,11 @@ export async function getProximasReservas(adminSlug: string) {
   });
 }
 
-export async function updatePredio(slug: string, body: unknown) {
+export async function updatePredio(
+  slug: string,
+  body: unknown,
+  adminId: number,
+) {
   const data = body as {
     nombre?: string;
     direccion?: string;
@@ -24,13 +28,14 @@ export async function updatePredio(slug: string, body: unknown) {
   const predio = await actualizarPredio(
     slug,
     data as { nombre: string; direccion: string; telefono: string },
+    adminId,
   );
   if (!predio)
     return Response.json({ message: "Predio no encontrado" }, { status: 404 });
   return Response.json({ predio });
 }
 
-export async function updateCancha(id: string, body: unknown) {
+export async function updateCancha(id: string, body: unknown, adminId: number) {
   const idCancha = Number(id);
   const data = body as {
     nombre?: string;
@@ -54,7 +59,7 @@ export async function updateCancha(id: string, body: unknown) {
     );
   }
 
-  const cancha = await actualizarCancha(idCancha, {
+  const cancha = await actualizarCancha(idCancha, adminId, {
     nombre: data.nombre,
     tipo: data.tipo,
     precio: Number(data.precio ?? 0),

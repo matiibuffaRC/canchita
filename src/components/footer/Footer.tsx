@@ -1,10 +1,11 @@
+'use client';
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 const quickLinks = [
-    { label: "Inicio", href: "/#inicio" },
-    { label: "Cómo funciona", href: "/#como-funciona" },
-    { label: "Contacto", href: "/#contacto" },
+    { label: "Inicio", href: "inicio" },
+    { label: "Cómo funciona", href: "como-funciona" },
+    { label: "Contacto", href: "contacto" },
 ];  
 
 const adminLinks = [
@@ -13,6 +14,13 @@ const adminLinks = [
 ];
 
 export default function Footer() {
+    const handleScrollToSection = (sectionId: string) => {
+        const section = document.getElementById(sectionId);
+
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
     return (
         <footer className="relative mt-auto overflow-hidden bg-[#243054] text-white nunito">
             <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)]" />
@@ -65,9 +73,9 @@ export default function Footer() {
                         <ul className="mt-5 space-y-3 text-sm text-[#E8EDF7]">
                         {quickLinks.map((link) => (
                             <li key={link.href}>
-                                <Link href={link.href} className="transition-colors hover:text-white" >
+                                <button onClick={() => handleScrollToSection(link.href)} className="transition-colors hover:text-white cursor-pointer">
                                     {link.label}
-                                </Link>
+                                </button>
                             </li>
                         ))}
                         </ul>
@@ -81,7 +89,7 @@ export default function Footer() {
                         <ul className="mt-5 space-y-3 text-sm text-[#E8EDF7]">
                             {adminLinks.map((link) => (
                                 <li key={link.label}>
-                                    <Link href={link.href} className="transition-colors hover:text-white" >
+                                    <Link href={link.href} className="transition-colors hover:text-white cursor-pointer">
                                         {link.label}
                                     </Link>
                                 </li>

@@ -29,10 +29,10 @@ export const buscarCanchasPorPredio = async (id: number) => {
 export const buscarCanchaPorId = async (id: number) => {
   const result = await db.query(
     `
-            SELECT * 
-            FROM "Cancha"
-            WHERE id_cancha = $1
-        `,
+                SELECT * 
+                FROM "Cancha"
+                WHERE id_cancha = $1
+            `,
     [id],
   );
   return result.rows[0];
@@ -40,6 +40,7 @@ export const buscarCanchaPorId = async (id: number) => {
 
 export async function actualizarCancha(
   id: number,
+  adminId: number,
   datos: {
     nombre: string;
     tipo: string;
@@ -50,11 +51,14 @@ export async function actualizarCancha(
   },
 ) {
   const result = await db.query(
-    `UPDATE "Cancha"
-     SET nombre = $1, tipo = $2, precio = $3, duracion = $4,
-       hora_apertura = $5, hora_cierre = $6
-     WHERE id_cancha = $7
-     RETURNING *`,
+    `UPDATE "Cancha" AS c
+            SET nombre = $1, tipo = $2, precio = $3, duracion = $4,
+            hora_apertura = $5, hora_cierre = $6
+        FROM "Predio" AS p
+        WHERE c.id_cancha = $7
+            AND c.id_predio = p.id_predio
+            AND p.id_administrador = $8
+        RETURNING c.*`,
     [
       datos.nombre,
       datos.tipo,
@@ -63,6 +67,7 @@ export async function actualizarCancha(
       datos.horario_apertura,
       datos.horario_cierre,
       id,
+      adminId,
     ],
   );
   return result.rows[0];

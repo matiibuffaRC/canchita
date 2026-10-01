@@ -1,5 +1,9 @@
 import { getDataCancha } from "@/src/controllers/cancha.controller";
 import { updateCancha } from "@/src/controllers/admin-dashboard.controller";
+import {
+  obtenerAdminAutenticado,
+  respuestaNoAutorizada,
+} from "@/src/util/admin-auth";
 
 export async function GET(
   _request: Request,
@@ -16,9 +20,12 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ "id-cancha": string }> },
 ) {
+  const admin = await obtenerAdminAutenticado();
+  if (!admin) return respuestaNoAutorizada();
+
   const { "id-cancha": id } = await params;
   try {
-    return await updateCancha(id, await request.json());
+    return await updateCancha(id, await request.json(), admin.id);
   } catch (error) {
     console.error("Error actualizando cancha", error);
     return Response.json(
