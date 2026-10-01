@@ -28,7 +28,7 @@ export function ErrorToast({
   return createPortal(
     <div
       role="alert"
-      className={`fixed bottom-5 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-sm -translate-x-1/2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 shadow-lg transition-all duration-300 ease-out sm:bottom-6 sm:left-auto sm:right-6 sm:w-auto sm:-translate-x-0 ${
+      className={`fixed bottom-5 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-sm -translate-x-1/2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 shadow-lg transition-all duration-300 ease-out sm:bottom-6 sm:left-auto sm:right-6 sm:w-auto sm:translate-x-0 ${
         show
           ? "translate-y-0 opacity-100"
           : "translate-y-3 opacity-0 sm:translate-x-4 sm:translate-y-0"

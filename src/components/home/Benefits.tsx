@@ -27,24 +27,24 @@ type FeatureCardProps = {
 const BOOKINGS: BookingItemProps[] = [
     {
         id: 1,
+        time: "18:00 a 19:00",
+        predio: "Predio 1",
+        cancha: "Cancha 1",
+        status: "finished",
+    },
+    {
+        id: 2,
         time: "19:00 a 20:00",
         predio: "Predio 2",
         cancha: "Cancha 1",
         status: "confirmed",
     },
     {
-        id: 2,
+        id: 3,
         time: "22:00 a 23:00",
         predio: "Predio 1",
         cancha: "Cancha 2",
         status: "pending",
-    },
-    {
-        id: 3,
-        time: "18:00 a 19:00",
-        predio: "Predio 1",
-        cancha: "Cancha 1",
-        status: "finished",
     },
 ];
 
@@ -213,7 +213,7 @@ function FeatureCard({ title, description, icon: Icon, variant, position, extra,
         const Extra = extra ? EXTRAS[extra] : null;
 
     return (
-        <article className={`rounded-xl border border-white/10 p-7 transition duration-300 motion-safe:hover:-translate-y-1 ${v.card} ${position}`} >
+        <article className={`rounded-xl border border-white/10 p-7 transition duration-300 ${v.card} ${position}`} >
             <div className={`flex h-11 w-11 items-center justify-center rounded-full ${v.icon}`} >
                 <Icon aria-hidden="true" className="h-5 w-5" />
             </div>
@@ -241,7 +241,7 @@ export default function Benefits() {
                         Ventajas
                     </span>
 
-                    <h2 id="benefits-title" className="mt-3 text-3xl font-bold text-white md:text-4xl" >
+                    <h2 id="benefits-title" className="mt-2 text-3xl font-bold text-white md:text-4xl" >
                         ¿Por qué elegirnos?
                     </h2>
 
@@ -250,9 +250,9 @@ export default function Benefits() {
                     </p>
                 </div>
 
-                <div className="mt-20 grid grid-cols-1 gap-2 md:grid-cols-3 md:grid-rows-3">
+                <div className="mt-10 grid grid-cols-1 gap-2 md:grid-cols-3 md:grid-rows-3">
                 {/* Tarjeta grande: turnos */}
-                <article className="rounded-xl border border-white/10 bg-white/95 p-3 px-4 transition duration-300 motion-safe:hover:-translate-y-1 md:row-span-2">
+                <article className="rounded-xl border border-white/10 bg-white/95 p-3 px-4 transition duration-300 md:row-span-2">
                     <h3 className="py-1.5 text-lg font-bold text-[#243054]">
                         Gestioná tus turnos
                     </h3>

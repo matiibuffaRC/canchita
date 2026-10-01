@@ -8,8 +8,8 @@ const quickLinks = [
 ];  
 
 const adminLinks = [
-    { label: "Soy administrador", href: "/admin" },
-    { label: "Reservá tu cancha", href: "/#inicio" },
+    { label: "Soy administrador", href: "/admin/login" },
+    { label: "Reservá tu cancha", href: "/admin/login" },
 ];
 
 export default function Footer() {
@@ -80,10 +80,10 @@ export default function Footer() {
 
                         <ul className="mt-5 space-y-3 text-sm text-[#E8EDF7]">
                             {adminLinks.map((link) => (
-                                <li key={link.href}>
-                                <Link href={link.href} className="transition-colors hover:text-white" >
-                                    {link.label}
-                                </Link>
+                                <li key={link.label}>
+                                    <Link href={link.href} className="transition-colors hover:text-white" >
+                                        {link.label}
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -92,7 +92,7 @@ export default function Footer() {
                             <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#243054]">
                                 ¿Tu predio quiere estar online?
                             </p>
-                            <Link href="/admin" className="mt-3 inline-flex rounded-full bg-[#243054] px-4 py-2 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d2944]" >
+                            <Link href="/admin/login" className="mt-3 inline-flex rounded-full bg-[#243054] px-4 py-2 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1d2944]" >
                                 Ver panel
                             </Link>
                         </div>
